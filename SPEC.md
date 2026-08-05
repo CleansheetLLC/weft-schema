@@ -7,7 +7,7 @@
 | **Version** | 0.1 (draft) · 2026-08 |
 | **Publisher / steward** | Cleansheet LLC |
 | **Status** | Public specification — open for citation and implementation |
-| **License** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (proposed; pending final legal review) |
+| **License** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | **Canonical home** | https://weftgraph.org |
 | **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) (concept DOI — resolves to the latest version) |
 | **Machine projection** | A normative machine-readable projection accompanies this specification (`weft.json`) |
@@ -458,4 +458,4 @@ FHIR R4/R5 (references, workflow module, Encounter, Observation, Provenance & PR
 
 ---
 
-*The Weft Schema is published by Cleansheet LLC under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (proposed; pending final legal review). You may share and adapt it, including commercially, with attribution. Cite as: The Weft Schema, v0.1, Cleansheet LLC, 2026, https://weftgraph.org. "Weft" is used as the name of this schema; trademark rights in the name are reserved and are not licensed under CC BY 4.0.*
+*The Weft Schema is published by Cleansheet LLC under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You may share and adapt it, including commercially, with attribution. Cite as: The Weft Schema, v0.1, Cleansheet LLC, 2026, https://weftgraph.org. "Weft" is used as the name of this schema; trademark rights in the name are reserved and are not licensed under CC BY 4.0.*

@@ -19,6 +19,6 @@ Initial public specification and machine projection.
   with families, mixins, `dataClass`, `fhirAlignment`, and `standardsAnchor`.
 - **Added** publication scaffolding — `LICENSE` (CC BY 4.0), `CITATION.cff`, `.zenodo.json`.
 - **Status** draft; published as a defensive publication establishing the five-domain fusion as
-  prior art. License (CC BY 4.0) proposed, pending final legal review.
+  prior art. Published under CC BY 4.0.
 
 [0.1]: https://weftgraph.org

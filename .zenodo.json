@@ -21,5 +21,5 @@
     "clinical informatics",
     "defensive publication"
   ],
-  "notes": "Canonical home: https://weftgraph.org . License CC BY 4.0 proposed, pending final legal review. The specification and its machine projection (weft.json) are the open layer; the executable pipeline, corpora, and policy packs that exercise the schema are not part of this publication."
+  "notes": "Canonical home: https://weftgraph.org . Licensed under CC BY 4.0. The specification and its machine projection (weft.json) are the open layer; the executable pipeline, corpora, and policy packs that exercise the schema are not part of this publication."
 }
