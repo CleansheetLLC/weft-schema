@@ -9,7 +9,7 @@
 | **Status** | Public specification — open for citation and implementation |
 | **License** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (proposed; pending final legal review) |
 | **Canonical home** | https://weftgraph.org |
-| **DOI** | `10.5281/zenodo.<VERSION_DOI>` (assigned on Zenodo release) |
+| **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) (concept DOI — resolves to the latest version) |
 | **Machine projection** | A normative machine-readable projection accompanies this specification (`weft.json`) |
 | **Cite as** | *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://weftgraph.org |
 

@@ -3,19 +3,16 @@
 **A unified graph schema for healthcare** — clinical, facility, device, people, supply, financial, and AI-provenance in one metagraph.
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
-<!-- DOI badge — replace <CONCEPT_DOI> after first Zenodo release (the concept DOI resolves to the latest version):
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.<CONCEPT_DOI>.svg)](https://doi.org/10.5281/zenodo.<CONCEPT_DOI>)
--->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21806130.svg)](https://doi.org/10.5281/zenodo.21806130)
 
 | | |
 |---|---|
 | **Version** | 0.1 (draft) |
 | **Date** | 2026-08 |
 | **Steward** | Cleansheet LLC |
-| **License** | [CC BY 4.0](LICENSE) |
+| **License** | [CC BY 4.0](LICENSE) *(proposed; pending final legal review)* |
 | **Canonical home** | https://weftgraph.org |
-| **DOI (all versions)** | `10.5281/zenodo.<CONCEPT_DOI>` *(assigned on first Zenodo release)* |
-| **DOI (this version)** | `10.5281/zenodo.<VERSION_DOI>` *(assigned per release)* |
+| **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) — concept DOI, resolves to the latest version |
 
 ---
 
@@ -47,11 +44,11 @@ primitives are precedented; the combination is the contribution.**
 
 ## How to cite
 
+> *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://doi.org/10.5281/zenodo.21806130
+
+Or, citing the canonical home:
+
 > *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://weftgraph.org
-
-Once a DOI is minted, cite the DOI:
-
-> *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://doi.org/10.5281/zenodo.\<VERSION_DOI\>
 
 ## Status and defensive publication
 
@@ -71,7 +68,8 @@ instruments, prompts), not by adding node types.
 ## License and attribution
 
 Copyright © 2026 Cleansheet LLC. Licensed under
-[Creative Commons Attribution 4.0 International](LICENSE). You may share and adapt the material, including commercially, provided you give
+[Creative Commons Attribution 4.0 International](LICENSE) *(proposed; pending final legal
+review)*. You may share and adapt the material, including commercially, provided you give
 appropriate credit, link to the license, and indicate if changes were made. Attribute as shown
 under **How to cite**.
 

@@ -25,11 +25,7 @@ keywords:
   - provenance
   - knowledge graph
   - clinical informatics
-# After the first Zenodo release, uncomment and fill the version-specific DOI:
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.<VERSION_DOI>"
-#     description: "The versioned DOI for v0.1"
-#   - type: doi
-#     value: "10.5281/zenodo.<CONCEPT_DOI>"
-#     description: "The concept DOI (resolves to the latest version)"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21806130"
+    description: "Concept DOI (resolves to the latest version)"

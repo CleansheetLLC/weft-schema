@@ -8,7 +8,7 @@
  "license": "CC-BY-4.0",
  "licenseNote": "Proposed; pending final legal review. Trademark rights in the name \"Weft\" are reserved and are not licensed under CC BY 4.0.",
  "canonicalUrl": "https://weftgraph.org",
- "doi": "10.5281/zenodo.<VERSION_DOI>",
+ "doi": "10.5281/zenodo.21806130",
  "citeAs": "The Weft Schema, v0.1, Cleansheet LLC, 2026, https://weftgraph.org",
  "source": "The Weft Schema, v0.1 (SPEC.md)",
  "description": "Machine-readable projection of the Weft schema: node families, node types, edge types, mixins, and modeling rules. The `notes` fields are plain-language display copy for each construct; SPEC.md is the narrative source of truth.",
