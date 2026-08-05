@@ -12,7 +12,7 @@
 | **Version** | 0.1 (draft) |
 | **Date** | 2026-08 |
 | **Steward** | Cleansheet LLC |
-| **License** | [CC BY 4.0](LICENSE) *(proposed; pending final legal review)* |
+| **License** | [CC BY 4.0](LICENSE) |
 | **Canonical home** | https://weftgraph.org |
 | **DOI (all versions)** | `10.5281/zenodo.<CONCEPT_DOI>` *(assigned on first Zenodo release)* |
 | **DOI (this version)** | `10.5281/zenodo.<VERSION_DOI>` *(assigned per release)* |
@@ -71,8 +71,7 @@ instruments, prompts), not by adding node types.
 ## License and attribution
 
 Copyright © 2026 Cleansheet LLC. Licensed under
-[Creative Commons Attribution 4.0 International](LICENSE) *(proposed; pending final legal
-review)*. You may share and adapt the material, including commercially, provided you give
+[Creative Commons Attribution 4.0 International](LICENSE). You may share and adapt the material, including commercially, provided you give
 appropriate credit, link to the license, and indicate if changes were made. Attribute as shown
 under **How to cite**.
 
