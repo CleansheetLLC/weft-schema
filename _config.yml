@@ -1,0 +1,9 @@
+title: The Weft Schema
+description: >-
+  A unified graph schema for healthcare — clinical, facility, device, people,
+  supply, financial, and AI-provenance in one metagraph. CC BY 4.0.
+theme: jekyll-theme-cayman
+# The landing page renders README.md; SPEC.md and weft.json are served alongside.
+# .zenodo.json and other dotfiles are excluded from the built site by default.
+exclude:
+  - CHANGELOG.md
