@@ -3,7 +3,7 @@ description: >-
   A unified graph schema for healthcare — clinical, facility, device, people,
   supply, financial, and AI-provenance in one metagraph. CC BY 4.0.
 theme: jekyll-theme-cayman
-# The landing page renders README.md; SPEC.md and weft.json are served alongside.
-# .zenodo.json and other dotfiles are excluded from the built site by default.
-exclude:
-  - CHANGELOG.md
+# The landing page renders README.md; SPEC.md, CHANGELOG.md, and weft.json are
+# served alongside (Markdown files build to .html; jekyll-relative-links rewrites
+# the .md links in README to their .html targets). .zenodo.json and other
+# dotfiles are excluded from the built site by Jekyll's defaults.
