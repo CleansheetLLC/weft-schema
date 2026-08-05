@@ -242,14 +242,14 @@
    "name": "Location",
    "family": "F1",
    "fhirAnalog": "Location",
-   "notes": "Any place, at any scale: a campus contains buildings, buildings contain wings, wings contain rooms, rooms contain beds \u2014 each simply 'part of' the next. A place's readiness (clean / dirty / occupied / blocked) is tracked directly and controls whether it can be booked. A patient's home counts too \u2014 a place the organization doesn't control. (The place vocabulary follows FHIR R5, the only standard that goes down to bed and vehicle.)",
+   "notes": "Any place, at any scale: a campus contains buildings, buildings contain wings, wings contain rooms, rooms contain beds — each simply 'part of' the next. A place's readiness (clean / dirty / occupied / blocked) is tracked directly and controls whether it can be booked. A patient's home counts too — a place the organization doesn't control. (The place vocabulary follows FHIR R5, the only standard that goes down to bed and vehicle.)",
    "fhirAlignment": "native"
   },
   {
    "name": "RtlsZone",
    "family": "F1",
    "fhirAnalog": "Location (HL7 RTLS IG profile)",
-   "notes": "A radio-coverage area from the location-tracking system, kept separate from rooms because radio zones don't line up perfectly with walls. Each zone links to the room it covers and carries how confident a 'seen here' reading is \u2014 routing a nurse call demands room-level confidence.",
+   "notes": "A radio-coverage area from the location-tracking system, kept separate from rooms because radio zones don't line up perfectly with walls. Each zone links to the room it covers and carries how confident a 'seen here' reading is — routing a nurse call demands room-level confidence.",
    "fhirAlignment": "profiled",
    "standardsAnchor": "HL7 RTLS IG (ballot)"
   },
@@ -257,23 +257,23 @@
    "name": "StockLocation",
    "family": "F1",
    "fhirAnalog": null,
-   "notes": "A place that holds supplies. One type covers the dispensing cabinet, the med cart, the crash cart, the vaccine fridge, the school med cabinet, the controlled drawer, a nurse's car trunk, a field-trip kit, and a patient's home shelf \u2014 what differs between them is the rules applied, not the kind of thing.",
+   "notes": "A place that holds supplies. One type covers the dispensing cabinet, the med cart, the crash cart, the vaccine fridge, the school med cabinet, the controlled drawer, a nurse's car trunk, a field-trip kit, and a patient's home shelf — what differs between them is the rules applied, not the kind of thing.",
    "fhirAlignment": "novel",
-   "standardsAnchor": "no FHIR resource for a supply-holding place; unifies dispensing cabinet / med cart / fridge / kit \u2014 differences are policy, not type"
+   "standardsAnchor": "no FHIR resource for a supply-holding place; unifies dispensing cabinet / med cart / fridge / kit — differences are policy, not type"
   },
   {
    "name": "DeviceModel",
    "family": "F2",
    "layer": "knowledge",
    "fhirAnalog": "DeviceDefinition",
-   "notes": "The make-and-model catalog entry, identified by the manufacturer's barcode identity (UDI/GTIN). Recalls and maintenance strategies attach here \u2014 to the model \u2014 and reach every physical unit on site through it.",
+   "notes": "The make-and-model catalog entry, identified by the manufacturer's barcode identity (UDI/GTIN). Recalls and maintenance strategies attach here — to the model — and reach every physical unit on site through it.",
    "fhirAlignment": "native"
   },
   {
    "name": "DeviceRole",
    "family": "F2",
    "fhirAnalog": null,
-   "notes": "A functional slot a device fills: 'the OR 2 anesthesia machine position,' 'the ward kiosk.' The slot stays put while serial-numbered units rotate through it \u2014 which is exactly what keeps swap history intact. (The model / slot / physical-unit three-way split is deliberate and non-negotiable; manufacturing systems call the slot an equipment role, ISA-95.)",
+   "notes": "A functional slot a device fills: 'the OR 2 anesthesia machine position,' 'the ward kiosk.' The slot stays put while serial-numbered units rotate through it — which is exactly what keeps swap history intact. (The model / slot / physical-unit three-way split is deliberate and non-negotiable; manufacturing systems call the slot an equipment role, ISA-95.)",
    "fhirAlignment": "novel",
    "standardsAnchor": "ISA-95 equipment role"
   },
@@ -281,14 +281,14 @@
    "name": "DeviceInstance",
    "family": "F2",
    "fhirAnalog": "Device",
-   "notes": "One physical, serial-numbered device. It can contain sub-components (a monitor's modules), and when it senses or acts on its own it counts as an agent \u2014 able to produce readings, never to sign for them.",
+   "notes": "One physical, serial-numbered device. It can contain sub-components (a monitor's modules), and when it senses or acts on its own it counts as an agent — able to produce readings, never to sign for them.",
    "fhirAlignment": "native"
   },
   {
    "name": "Tag",
    "family": "F2",
    "fhirAnalog": "Device (RTLS IG profile)",
-   "notes": "A tracking beacon (BLE/NFC). Deliberately kept separate from whatever it's attached to \u2014 tags get moved and reused \u2014 with each attachment stored as its own dated record (an Association).",
+   "notes": "A tracking beacon (BLE/NFC). Deliberately kept separate from whatever it's attached to — tags get moved and reused — with each attachment stored as its own dated record (an Association).",
    "fhirAlignment": "profiled",
    "standardsAnchor": "HL7 RTLS IG (ballot)"
   },
@@ -312,14 +312,14 @@
    "name": "Person",
    "family": "F3",
    "fhirAnalog": "Person",
-   "notes": "One human being, however many roles they hold \u2014 a nurse here is also a patient somewhere else. This is the single identity those roles link back to, with each link carrying how confident we are it's the same person.",
+   "notes": "One human being, however many roles they hold — a nurse here is also a patient somewhere else. This is the single identity those roles link back to, with each link carrying how confident we are it's the same person.",
    "fhirAlignment": "native"
   },
   {
    "name": "Patient",
    "family": "F3",
    "fhirAnalog": "Patient",
-   "notes": "A person in their role as a receiver of care at a particular organization. Settings rename it \u2014 Student in a school, Resident in a nursing home \u2014 but it's the same type.",
+   "notes": "A person in their role as a receiver of care at a particular organization. Settings rename it — Student in a school, Resident in a nursing home — but it's the same type.",
    "fhirAlignment": "native"
   },
   {
@@ -333,14 +333,14 @@
    "name": "PractitionerRole",
    "family": "F3",
    "fhirAnalog": "PractitionerRole",
-   "notes": "A clinician's job at a particular place and time: this person, at this organization, at this location, in this specialty, for this period. Orders and actions attach to the job, not the person \u2014 so history stays correct when people change jobs. (The demo personas are these.)",
+   "notes": "A clinician's job at a particular place and time: this person, at this organization, at this location, in this specialty, for this period. Orders and actions attach to the job, not the person — so history stays correct when people change jobs. (The demo personas are these.)",
    "fhirAlignment": "native"
   },
   {
    "name": "RelatedPerson",
    "family": "F3",
    "fhirAnalog": "RelatedPerson",
-   "notes": "A family member or caregiver who acts in the record \u2014 consents, witnesses, gets trained on a skill. Someone who is merely a phone number on file stays a contact detail; they become a record of their own the moment they do something.",
+   "notes": "A family member or caregiver who acts in the record — consents, witnesses, gets trained on a skill. Someone who is merely a phone number on file stays a contact detail; they become a record of their own the moment they do something.",
    "fhirAlignment": "native"
   },
   {
@@ -361,16 +361,16 @@
    "name": "CareTeam",
    "family": "F3",
    "fhirAnalog": "CareTeam",
-   "notes": "A named team around a patient or a purpose \u2014 a code team assembled for one event, or a long-running care team. Members are jobs (or other teams), each with the period they're on it.",
+   "notes": "A named team around a patient or a purpose — a code team assembled for one event, or a long-running care team. Members are jobs (or other teams), each with the period they're on it.",
    "fhirAlignment": "native"
   },
   {
    "name": "Credential",
    "family": "F3",
    "fhirAnalog": "Practitioner.qualification",
-   "notes": "A qualification: a license, DEA number, CPR certification, delegation training, program enrollment \u2014 with who issued it, where it's valid, and when it expires. Expiry automatically creates renewal work.",
+   "notes": "A qualification: a license, DEA number, CPR certification, delegation training, program enrollment — with who issued it, where it's valid, and when it expires. Expiry automatically creates renewal work.",
    "fhirAlignment": "composite",
-   "standardsAnchor": "FHIR Practitioner.qualification \u2014 element promoted to node so expiry/verification can drive workflow"
+   "standardsAnchor": "FHIR Practitioner.qualification — element promoted to node so expiry/verification can drive workflow"
   },
   {
    "name": "VerificationResult",
@@ -383,21 +383,21 @@
    "name": "Encounter",
    "family": "F4",
    "fhirAnalog": "Encounter",
-   "notes": "One bounded interaction with a patient \u2014 a visit, a session, a stay \u2014 lasting minutes to days, including where the patient was throughout (bay to OR to recovery).",
+   "notes": "One bounded interaction with a patient — a visit, a session, a stay — lasting minutes to days, including where the patient was throughout (bay to OR to recovery).",
    "fhirAlignment": "native"
   },
   {
    "name": "EpisodeOfCare",
    "family": "F4",
    "fhirAnalog": "EpisodeOfCare",
-   "notes": "A longer arc of care around one condition or program \u2014 a home-health 60-day period, a wound episode, a pregnancy \u2014 owned by one organization and containing many encounters.",
+   "notes": "A longer arc of care around one condition or program — a home-health 60-day period, a wound episode, a pregnancy — owned by one organization and containing many encounters.",
    "fhirAlignment": "native"
   },
   {
    "name": "Course",
    "family": "F4",
    "fhirAnalog": null,
-   "notes": "A planned series of sessions against a protocol \u2014 36 TMS sessions, a chemo regimen, a PT plan, a vaccine series \u2014 where planned-versus-actually-delivered is the whole point. Each session is an encounter numbered within the course.",
+   "notes": "A planned series of sessions against a protocol — 36 TMS sessions, a chemo regimen, a PT plan, a vaccine series — where planned-versus-actually-delivered is the whole point. Each session is an encounter numbered within the course.",
    "fhirAlignment": "novel",
    "standardsAnchor": "no FHIR container for a protocolized planned series with plan-vs-actual; generalizes ProceduralCourse (TMS/Spravato/chemo/PT)"
   },
@@ -413,7 +413,7 @@
    "name": "Panel",
    "family": "F4",
    "fhirAnalog": "Group",
-   "notes": "A defined group of people someone is responsible for: a doctor's panel, a school roster, a ward census, a caseload, a sports team, a screening cohort. One type \u2014 what differs is the basis of membership (rostered, assigned, resides, enrolled, team member). Deliberately administrative rather than clinical: this is the mental-model fact kept out of the chart.",
+   "notes": "A defined group of people someone is responsible for: a doctor's panel, a school roster, a ward census, a caseload, a sports team, a screening cohort. One type — what differs is the basis of membership (rostered, assigned, resides, enrolled, team member). Deliberately administrative rather than clinical: this is the mental-model fact kept out of the chart.",
    "fhirAlignment": "native",
    "standardsAnchor": "FHIR Group; the non-clinical membershipBasis usage is the novel part"
   },
@@ -435,7 +435,7 @@
    "name": "Appointment",
    "family": "F4",
    "fhirAnalog": "Appointment",
-   "notes": "A booking \u2014 which can claim several openings at once as a single unit (chair + machine + technician), so half-made bookings can't happen.",
+   "notes": "A booking — which can claim several openings at once as a single unit (chair + machine + technician), so half-made bookings can't happen.",
    "fhirAlignment": "native"
   },
   {
@@ -469,7 +469,7 @@
    "mixins": [
     "Attestable"
    ],
-   "notes": "An instruction that something be done \u2014 a medication, a test, a referral, supplies. Renewals and corrections chain to what they replace, so the history of intent is never overwritten.",
+   "notes": "An instruction that something be done — a medication, a test, a referral, supplies. Renewals and corrections chain to what they replace, so the history of intent is never overwritten.",
    "fhirAlignment": "native"
   },
   {
@@ -479,22 +479,22 @@
    "mixins": [
     "Attestable"
    ],
-   "notes": "Something that happened, always in one shared shape: who or what did it, about whom or what, what was observed or done, when, and where. A blood pressure, a med given, a fridge temperature alarm, a room turned over, a weather advisory about a campus \u2014 clinical or not, same shape. (Design principle P3.)",
+   "notes": "Something that happened, always in one shared shape: who or what did it, about whom or what, what was observed or done, when, and where. A blood pressure, a med given, a fridge temperature alarm, a room turned over, a weather advisory about a campus — clinical or not, same shape. (Design principle P3.)",
    "fhirAlignment": "native",
-   "standardsAnchor": "W3C SOSA Observation \u2014 structurally isomorphic to FHIR Observation (P3)"
+   "standardsAnchor": "W3C SOSA Observation — structurally isomorphic to FHIR Observation (P3)"
   },
   {
    "name": "Condition",
    "family": "F5",
    "fhirAnalog": "Condition",
-   "notes": "A clinical state that persists \u2014 a diagnosis, with when it began and (perhaps) ended \u2014 supported by the events that evidence it. States and happenings are deliberately kept distinct.",
+   "notes": "A clinical state that persists — a diagnosis, with when it began and (perhaps) ended — supported by the events that evidence it. States and happenings are deliberately kept distinct.",
    "fhirAlignment": "native"
   },
   {
    "name": "Allergy",
    "family": "F5",
    "fhirAnalog": "AllergyIntolerance",
-   "notes": "An allergy or intolerance \u2014 a persisting state, handled the same way as Condition.",
+   "notes": "An allergy or intolerance — a persisting state, handled the same way as Condition.",
    "fhirAlignment": "native"
   },
   {
@@ -518,9 +518,9 @@
    "name": "Handoff",
    "family": "F5",
    "fhirAnalog": "Communication + Task (approximate)",
-   "notes": "Responsibility changing hands, kept as its own record: shift report, transfer, transport, referral, discharge. It knows whether the loop closed \u2014 sent is not the same as received and acted on.",
+   "notes": "Responsibility changing hands, kept as its own record: shift report, transfer, transport, referral, discharge. It knows whether the loop closed — sent is not the same as received and acted on.",
    "fhirAlignment": "composite",
-   "standardsAnchor": "FHIR Communication + Task; I-PASS / SBAR practice standards \u2014 promoted so loop-closure state is first-class"
+   "standardsAnchor": "FHIR Communication + Task; I-PASS / SBAR practice standards — promoted so loop-closure state is first-class"
   },
   {
    "name": "CountEvent",
@@ -529,7 +529,7 @@
    "mixins": [
     "Attestable"
    ],
-   "notes": "A check that what's actually there matches what should be there: controlled-drug counts, surgical sponge counts, medication reconciliation, crash-cart seal checks, expiry sweeps \u2014 sometimes requiring a second person to confirm independently. One type; the applicable policy sets the rules.",
+   "notes": "A check that what's actually there matches what should be there: controlled-drug counts, surgical sponge counts, medication reconciliation, crash-cart seal checks, expiry sweeps — sometimes requiring a second person to confirm independently. One type; the applicable policy sets the rules.",
    "fhirAlignment": "novel",
    "standardsAnchor": "controlled-count / med-rec / seal-check practice; FHIR has no verify-actual-vs-expected verb"
   },
@@ -537,7 +537,7 @@
    "name": "TransportRequest",
    "family": "F5",
    "fhirAnalog": null,
-   "notes": "A request to move someone or something \u2014 a patient, a specimen, a device, supplies \u2014 from one place to another, with the legs of the trip and its requirements (oxygen, an escort, a chain-of-custody log).",
+   "notes": "A request to move someone or something — a patient, a specimen, a device, supplies — from one place to another, with the legs of the trip and its requirements (oxygen, an escort, a chain-of-custody log).",
    "fhirAlignment": "novel",
    "standardsAnchor": "EMS CAD / hospital transport dispatch practice; no FHIR resource"
   },
@@ -545,7 +545,7 @@
    "name": "Alert",
    "family": "F5",
    "fhirAnalog": "DetectedIssue",
-   "notes": "Something needing attention \u2014 a care gap, a critical lab result, a threshold breach \u2014 that knows who it was routed to, who it was escalated to, and who acknowledged it. An alert nobody acknowledged is visibly still open, by construction.",
+   "notes": "Something needing attention — a care gap, a critical lab result, a threshold breach — that knows who it was routed to, who it was escalated to, and who acknowledged it. An alert nobody acknowledged is visibly still open, by construction.",
    "fhirAlignment": "native"
   },
   {
@@ -562,7 +562,7 @@
    "mixins": [
     "Attestable"
    ],
-   "notes": "A document: a note, a care plan, a consent form's paper trail \u2014 or a court order, which serves as the evidence behind a who-may-decide record.",
+   "notes": "A document: a note, a care plan, a consent form's paper trail — or a court order, which serves as the evidence behind a who-may-decide record.",
    "fhirAlignment": "native"
   },
   {
@@ -585,7 +585,7 @@
    "name": "InventoryLot",
    "family": "F6",
    "fhirAnalog": null,
-   "notes": "A specific batch on the shelf: lot number, expiry date, quantity \u2014 and who funded it. Publicly-funded and private stock must stay segregated by law, so the funding source rides on the batch itself. A batch can belong to the organization or to a patient (a student's own med bottle).",
+   "notes": "A specific batch on the shelf: lot number, expiry date, quantity — and who funded it. Publicly-funded and private stock must stay segregated by law, so the funding source rides on the batch itself. A batch can belong to the organization or to a patient (a student's own med bottle).",
    "fhirAlignment": "novel",
    "standardsAnchor": "GS1 UDI PI (lot/expiry); fundingSource segregation (VFC/340B/REMS) is regulatory, not FHIR"
   },
@@ -601,7 +601,7 @@
    "name": "Coverage",
    "family": "F7",
    "fhirAnalog": "Coverage",
-   "notes": "A patient's enrollment in an insurance plan \u2014 with a rank when they have several, settling which insurance pays first.",
+   "notes": "A patient's enrollment in an insurance plan — with a rank when they have several, settling which insurance pays first.",
    "fhirAlignment": "native"
   },
   {
@@ -622,7 +622,7 @@
    "name": "EligibilityCheck",
    "family": "F7",
    "fhirAnalog": "CoverageEligibilityRequest",
-   "notes": "A moment-in-time answer to 'is this coverage active, and what does it allow?' \u2014 true when checked, decaying afterward. The check date always rides along, so staleness is visible.",
+   "notes": "A moment-in-time answer to 'is this coverage active, and what does it allow?' — true when checked, decaying afterward. The check date always rides along, so staleness is visible.",
    "fhirAlignment": "native",
    "standardsAnchor": "X12 270/271"
   },
@@ -646,9 +646,9 @@
    "name": "ClaimLine",
    "family": "F7",
    "fhirAnalog": "Claim.item",
-   "notes": "One billed service on a claim. Each line names its billing code and rides on a clinician's signed attestation of the underlying care \u2014 no attestation, no claim line.",
+   "notes": "One billed service on a claim. Each line names its billing code and rides on a clinician's signed attestation of the underlying care — no attestation, no claim line.",
    "fhirAlignment": "composite",
-   "standardsAnchor": "FHIR Claim.item \u2014 element promoted so SUPPORTED_BY Attestation (no attestation, no claim line) can land per line"
+   "standardsAnchor": "FHIR Claim.item — element promoted so SUPPORTED_BY Attestation (no attestation, no claim line) can land per line"
   },
   {
    "name": "Payment",
@@ -676,7 +676,7 @@
    ],
    "notes": "A standard code and its meaning (SNOMED, LOINC, RxNorm, ICD, or a local code). Patient records point at concepts; the relationships between codes live here in the reference layer and are never copied into patient records.",
    "fhirAlignment": "composite",
-   "standardsAnchor": "SNOMED CT / LOINC / RxNorm / UMLS CUI \u2014 CodeSystem concepts as addressable nodes"
+   "standardsAnchor": "SNOMED CT / LOINC / RxNorm / UMLS CUI — CodeSystem concepts as addressable nodes"
   },
   {
    "name": "ProtocolDefinition",
@@ -686,7 +686,7 @@
    "mixins": [
     "Embeddable"
    ],
-   "notes": "A reusable definition of how care should go: an order set, a treatment protocol, a standing order, a screening schedule. Applying one to a real patient is itself a recorded action \u2014 so 'which protocol version produced this?' always has an answer.",
+   "notes": "A reusable definition of how care should go: an order set, a treatment protocol, a standing order, a screening schedule. Applying one to a real patient is itself a recorded action — so 'which protocol version produced this?' always has an answer.",
    "fhirAlignment": "native"
   },
   {
@@ -697,7 +697,7 @@
    "mixins": [
     "Embeddable"
    ],
-   "notes": "The questionnaire or assessment form itself, versioned. Translations are validated ones only \u2014 never machine-translated.",
+   "notes": "The questionnaire or assessment form itself, versioned. Translations are validated ones only — never machine-translated.",
    "fhirAlignment": "native"
   },
   {
@@ -720,7 +720,7 @@
    "mixins": [
     "Embeddable"
    ],
-   "notes": "A rule an organization sets that blocks an action until it is satisfied: witnessed dispensing, a two-nurse check, a time-out before incision. Rules stack down the org chart \u2014 which is how one schema serves every care setting.",
+   "notes": "A rule an organization sets that blocks an action until it is satisfied: witnessed dispensing, a two-nurse check, a time-out before incision. Rules stack down the org chart — which is how one schema serves every care setting.",
    "fhirAlignment": "novel",
    "standardsAnchor": "CQL / CDS Hooks cover fragments; org-scoped verb-gating policy packs composing down the org tree have no FHIR home"
   },
@@ -737,7 +737,7 @@
    "name": "SoftwareAgent",
    "family": "F9",
    "fhirAnalog": "Device (HL7 AI Transparency IG)",
-   "notes": "A specific AI model version \u2014 the voice extractor, the triage model, the route optimizer. It acts only on behalf of an accountable organization, and it can propose but never sign.",
+   "notes": "A specific AI model version — the voice extractor, the triage model, the route optimizer. It acts only on behalf of an accountable organization, and it can propose but never sign.",
    "fhirAlignment": "profiled",
    "standardsAnchor": "HL7 AI Transparency on FHIR IG (draft)"
   },
@@ -745,7 +745,7 @@
    "name": "Activity",
    "family": "F9",
    "fhirAnalog": "Provenance (activity)",
-   "notes": "One bounded run of work \u2014 an extraction, a detector sweep, a sync job \u2014 recording what it read, which definition governed it, and which earlier run fed into it. The unit of 'how did this get here?'",
+   "notes": "One bounded run of work — an extraction, a detector sweep, a sync job — recording what it read, which definition governed it, and which earlier run fed into it. The unit of 'how did this get here?'",
    "fhirAlignment": "composite",
    "standardsAnchor": "W3C PROV Activity; FHIR Provenance activity"
   },
@@ -758,21 +758,21 @@
    ],
    "notes": "A claim nobody has signed yet: an AI's extracted candidate, a detector's finding, a sensor's inference. Held apart from the official record by construction until a credentialed human acts on it.",
    "fhirAlignment": "composite",
-   "standardsAnchor": "HL7 AIAST tag (AI Transparency IG) \u2014 resource + tag promoted to quarantine class"
+   "standardsAnchor": "HL7 AIAST tag (AI Transparency IG) — resource + tag promoted to quarantine class"
   },
   {
    "name": "Attestation",
    "family": "F9",
    "fhirAnalog": "Provenance + Signature",
-   "notes": "A human signature over one specific item and version \u2014 never over a whole note at once. It comes in three modes (attest / verify / co-reason), and editing something counts as signing it. Only credentialed humans can do this.",
+   "notes": "A human signature over one specific item and version — never over a whole note at once. It comes in three modes (attest / verify / co-reason), and editing something counts as signing it. Only credentialed humans can do this.",
    "fhirAlignment": "composite",
-   "standardsAnchor": "FHIR Provenance + Signature \u2014 promoted so mode (attest/verify/co-reason) and per-item scope are first-class"
+   "standardsAnchor": "FHIR Provenance + Signature — promoted so mode (attest/verify/co-reason) and per-item scope are first-class"
   },
   {
    "name": "Consent",
    "family": "F9",
    "fhirAnalog": "Consent",
-   "notes": "Permission, precisely scoped: who granted it (not always the patient), for what, revocable, versioned \u2014 and where the law requires, controlling disclosure item by item. Missing consent blocks the action outright.",
+   "notes": "Permission, precisely scoped: who granted it (not always the patient), for what, revocable, versioned — and where the law requires, controlling disclosure item by item. Missing consent blocks the action outright.",
    "fhirAlignment": "native"
   },
   {
@@ -795,7 +795,7 @@
    "name": "SyncEvent",
    "family": "F10",
    "fhirAnalog": "AuditEvent (adjacent)",
-   "notes": "One recorded act of data arriving from outside \u2014 a roster sync, a feed import.",
+   "notes": "One recorded act of data arriving from outside — a roster sync, a feed import.",
    "fhirAlignment": "composite",
    "standardsAnchor": "FHIR AuditEvent (adjacent)"
   },
@@ -803,7 +803,7 @@
    "name": "ReportSubmission",
    "family": "F10",
    "fhirAnalog": "AuditEvent (adjacent)",
-   "notes": "One recorded act of sending data out \u2014 a registry submission, a state report, a governed write-back to the EHR.",
+   "notes": "One recorded act of sending data out — a registry submission, a state report, a governed write-back to the EHR.",
    "fhirAlignment": "composite",
    "standardsAnchor": "FHIR AuditEvent (adjacent)"
   }
@@ -821,7 +821,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "'Is part of' \u2014 one containment relationship serving places, organizations, devices, and encounters alike."
+   "notes": "'Is part of' — one containment relationship serving places, organizations, devices, and encounters alike."
   },
   {
    "name": "INSTANCE_OF",
@@ -854,7 +854,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "'Follows this definition' \u2014 connects a real record to the versioned protocol, form, or prompt that shaped it."
+   "notes": "'Follows this definition' — connects a real record to the versioned protocol, form, or prompt that shaped it."
   },
   {
    "name": "CODED_AS",
@@ -876,7 +876,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "Between reference concepts (and radio zones to rooms) \u2014 never on patient records."
+   "notes": "Between reference concepts (and radio zones to rooms) — never on patient records."
   },
   {
    "name": "IS_A",
@@ -887,7 +887,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "Between reference concepts only \u2014 never on patient records."
+   "notes": "Between reference concepts only — never on patient records."
   },
   {
    "name": "MEMBER_OF",
@@ -1028,7 +1028,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "'Carries out' \u2014 connects the act to the instruction it fulfills; the middle of order \u2192 event \u2192 sign-off."
+   "notes": "'Carries out' — connects the act to the instruction it fulfills; the middle of order → event → sign-off."
   },
   {
    "name": "BASED_ON",
@@ -1114,7 +1114,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "What a clinical act used up \u2014 the same connection that decrements inventory and supports the charge."
+   "notes": "What a clinical act used up — the same connection that decrements inventory and supports the charge."
   },
   {
    "name": "USED_DEVICE",
@@ -1195,7 +1195,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "The receipt that closes the loop \u2014 someone saw it and owned it."
+   "notes": "The receipt that closes the loop — someone saw it and owned it."
   },
   {
    "name": "GATES",
@@ -1238,7 +1238,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "A social or family relationship only \u2014 being someone's mother grants no permissions here; decision authority is a separate, evidenced record. (Design principle P7.)"
+   "notes": "A social or family relationship only — being someone's mother grants no permissions here; decision authority is a separate, evidenced record. (Design principle P7.)"
   },
   {
    "name": "HAS_AUTHORITY_FOR",
@@ -1250,7 +1250,7 @@
    "timeSliced": true,
    "reified": true,
    "reifiedVia": "ConsentAuthority",
-   "notes": "May make decisions for \u2014 with the legal basis, scope, and evidence attached."
+   "notes": "May make decisions for — with the legal basis, scope, and evidence attached."
   },
   {
    "name": "GRANTED_BY",
@@ -1321,7 +1321,7 @@
    ],
    "timeSliced": true,
    "reified": false,
-   "notes": "Where a clinician may practice \u2014 makes 'is telehealth allowed for this patient's state?' a simple lookup."
+   "notes": "Where a clinician may practice — makes 'is telehealth allowed for this patient's state?' a simple lookup."
   },
   {
    "name": "GENERATED_BY",
@@ -1363,7 +1363,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "What this was computed or derived from \u2014 full lineage, all the way back."
+   "notes": "What this was computed or derived from — full lineage, all the way back."
   },
   {
    "name": "ATTRIBUTED_TO",
@@ -1416,7 +1416,7 @@
    "timeSliced": false,
    "reified": true,
    "reifiedVia": "Attestation",
-   "notes": "The human signature \u2014 only credentialed humans, never software or devices."
+   "notes": "The human signature — only credentialed humans, never software or devices."
   },
   {
    "name": "SUPERSEDES",
@@ -1427,7 +1427,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "Replaces an earlier version without erasing it \u2014 corrections, renewals, and resubmissions all keep their history."
+   "notes": "Replaces an earlier version without erasing it — corrections, renewals, and resubmissions all keep their history."
   },
   {
    "name": "INVALIDATED_BY",
@@ -1602,7 +1602,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "Where inbound data came from \u2014 nothing enters the graph without it."
+   "notes": "Where inbound data came from — nothing enters the graph without it."
   },
   {
    "name": "REPORTED_TO",
@@ -1613,7 +1613,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "Where outbound data went \u2014 nothing leaves without it."
+   "notes": "Where outbound data went — nothing leaves without it."
   },
   {
    "name": "RELATES_TO",
@@ -1684,9 +1684,9 @@
   "extensionRule": "product teams extend by authoring F8 artifacts (policy packs, protocols, instruments, prompts), not by adding node types"
  },
  "fhirAlignmentTiers": {
-  "native": "Maps one-to-one onto a standard FHIR record \u2014 exports losslessly.",
+  "native": "Maps one-to-one onto a standard FHIR record — exports losslessly.",
   "profiled": "A FHIR base type under a published profile or implementation guide (HL7's extension mechanism), or one that exists only in FHIR R5.",
-  "composite": "Built from FHIR pieces \u2014 a fragment or combination promoted to a record of its own so it can carry state and signatures.",
-  "novel": "No FHIR equivalent exists \u2014 the deliberate divergence list. Each entry names the non-FHIR standard or practice it is anchored to, where one exists."
+  "composite": "Built from FHIR pieces — a fragment or combination promoted to a record of its own so it can carry state and signatures.",
+  "novel": "No FHIR equivalent exists — the deliberate divergence list. Each entry names the non-FHIR standard or practice it is anchored to, where one exists."
  }
 }
