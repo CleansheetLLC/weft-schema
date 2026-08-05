@@ -1,0 +1,25 @@
+{
+  "title": "The Weft Schema",
+  "upload_type": "publication",
+  "publication_type": "standard",
+  "description": "A unified graph schema for healthcare that fuses five domains normally modeled separately — clinical acts, people and organization, facility and space, device and sensing, and trust and AI-provenance — into one typed metagraph across hardware, software, and human (wetware) agents. 10 node families, 70 node types, 77 typed edges, 8 design principles, with every construct traced to a recognized standard (FHIR, W3C PROV, SOSA/SSN, Brick, SNOMED CT, ISA-95, GS1 UDI, OCEL). Published as a defensive publication establishing the five-domain fusion as prior art.",
+  "version": "0.1",
+  "language": "eng",
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "creators": [
+    { "name": "Cleansheet LLC" }
+  ],
+  "keywords": [
+    "healthcare",
+    "graph schema",
+    "ontology",
+    "metagraph",
+    "FHIR",
+    "provenance",
+    "knowledge graph",
+    "clinical informatics",
+    "defensive publication"
+  ],
+  "notes": "Canonical home: https://weftgraph.org . License CC BY 4.0 proposed, pending final legal review. The specification and its machine projection (weft.json) are the open layer; the executable pipeline, corpora, and policy packs that exercise the schema are not part of this publication."
+}

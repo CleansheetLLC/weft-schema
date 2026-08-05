@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use or reference the Weft Schema, please cite it as below."
+title: "The Weft Schema"
+abstract: >-
+  A unified graph schema for healthcare that fuses five domains normally modeled
+  separately — clinical acts, people and organization, facility and space, device
+  and sensing, and trust and AI-provenance — into one typed metagraph across
+  hardware, software, and human (wetware) agents. 10 node families, 70 node types,
+  77 typed edges, 8 design principles, with every construct traced to a recognized
+  standard (FHIR, W3C PROV, SOSA/SSN, Brick, SNOMED CT, ISA-95, GS1 UDI, OCEL).
+type: dataset
+version: "0.1"
+date-released: 2026-08-01
+license: CC-BY-4.0
+url: "https://weftgraph.org"
+repository-code: "https://github.com/CleansheetLLC/weft-schema"
+authors:
+  - name: "Cleansheet LLC"
+keywords:
+  - healthcare
+  - graph schema
+  - ontology
+  - metagraph
+  - FHIR
+  - provenance
+  - knowledge graph
+  - clinical informatics
+# After the first Zenodo release, uncomment and fill the version-specific DOI:
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.<VERSION_DOI>"
+#     description: "The versioned DOI for v0.1"
+#   - type: doi
+#     value: "10.5281/zenodo.<CONCEPT_DOI>"
+#     description: "The concept DOI (resolves to the latest version)"

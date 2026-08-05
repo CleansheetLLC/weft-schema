@@ -1,0 +1,1692 @@
+{
+ "name": "cleansheet-ontology",
+ "schema": "Weft",
+ "version": "0.1.0",
+ "status": "draft",
+ "date": "2026-08",
+ "publisher": "Cleansheet LLC",
+ "license": "CC-BY-4.0",
+ "licenseNote": "Proposed; pending final legal review. Trademark rights in the name \"Weft\" are reserved and are not licensed under CC BY 4.0.",
+ "canonicalUrl": "https://weftgraph.org",
+ "doi": "10.5281/zenodo.<VERSION_DOI>",
+ "citeAs": "The Weft Schema, v0.1, Cleansheet LLC, 2026, https://weftgraph.org",
+ "source": "The Weft Schema, v0.1 (SPEC.md)",
+ "description": "Machine-readable projection of the Weft schema: node families, node types, edge types, mixins, and modeling rules. The `notes` fields are plain-language display copy for each construct; SPEC.md is the narrative source of truth.",
+ "verbTriple": {
+  "pattern": [
+   "Order",
+   "Event",
+   "Attestation"
+  ],
+  "gloss": "intent -> act -> accountability; every clinical and operational verb in every setting is this triple with a different policy pack attached"
+ },
+ "dataClasses": [
+  {
+   "key": "clinical",
+   "gloss": "EHR-bound under governance"
+  },
+  {
+   "key": "administrative",
+   "gloss": "rosters, schedules, teams; never EHR-bound"
+  },
+  {
+   "key": "personal",
+   "gloss": "preferences, family context"
+  },
+  {
+   "key": "operational",
+   "gloss": "facility state, device telemetry"
+  }
+ ],
+ "agentClasses": [
+  {
+   "key": "human",
+   "types": [
+    "PractitionerRole",
+    "Patient",
+    "RelatedPerson"
+   ],
+   "mayProduce": [
+    "Event",
+    "Order",
+    "Assertion",
+    "Attestation"
+   ],
+   "mayAttest": true,
+   "gatedBy": [
+    "Credential",
+    "PolicyRule"
+   ]
+  },
+  {
+   "key": "hardware",
+   "types": [
+    "DeviceInstance"
+   ],
+   "mayProduce": [
+    "Event",
+    "Assertion"
+   ],
+   "mayAttest": false
+  },
+  {
+   "key": "software",
+   "types": [
+    "SoftwareAgent"
+   ],
+   "mayProduce": [
+    "Assertion",
+    "Activity",
+    "Order(draft)",
+    "Document(draft)"
+   ],
+   "mayAttest": false,
+   "actsOnBehalfOf": "Organization"
+  }
+ ],
+ "invariant": "Any agent can assert; only credentialed humans can attest.",
+ "attestationModes": [
+  {
+   "key": "attest"
+  },
+  {
+   "key": "verify"
+  },
+  {
+   "key": "co-reason"
+  }
+ ],
+ "principles": [
+  {
+   "id": "P1",
+   "title": "Two layers: knowledge and instance",
+   "summary": "Versioned PHI-free knowledge layer joined to a mutable instance layer only by INSTANTIATES / CODED_AS / MAPS_TO; never copy hierarchy into instances."
+  },
+  {
+   "id": "P2",
+   "title": "Reify relationships that carry role, period, state, or signature",
+   "summary": "Such relationships are nodes, not edges; direct edges may exist only as derived shortcuts."
+  },
+  {
+   "id": "P3",
+   "title": "One event shape for everything observed",
+   "summary": "Clinical vitals, room temps, RTLS transitions, and power states share the Event shape; raw streams stay in the TSDB, only semantic transitions materialize."
+  },
+  {
+   "id": "P4",
+   "title": "Small closed edge vocabulary with named inverses plus one monitored escape hatch",
+   "summary": "RELATES_TO is the only open edge; accumulation there is the missing-schema-feature detector, reviewed quarterly."
+  },
+  {
+   "id": "P5",
+   "title": "Space, placement, and function are three separate edge families",
+   "summary": "PART_OF (containment), LOCATED_AT (placement, time-sliced), FEEDS/MONITORS/CONTROLS/DEPENDS_ON (function)."
+  },
+  {
+   "id": "P6",
+   "title": "Temporal validity everywhere; append-only corrections",
+   "summary": "Validity intervals on high-churn edges; corrections are SUPERSEDES plus a new node, never deletion; unattested-work queries are anti-joins over ATTESTED_BY."
+  },
+  {
+   "id": "P7",
+   "title": "Authority is not relationship",
+   "summary": "RELATED_TO is a social fact; HAS_AUTHORITY_FOR is a separate, evidenced, scoped, revocable edge via ConsentAuthority."
+  },
+  {
+   "id": "P8",
+   "title": "Segmentation is a schema property",
+   "summary": "Every node and edge carries dataClass; EHR write-back policy composes over it."
+  }
+ ],
+ "mixins": [
+  {
+   "name": "BookableResource",
+   "appliesTo": [
+    "PractitionerRole",
+    "Location",
+    "DeviceInstance"
+   ],
+   "grants": [
+    "OWNS_SCHEDULE"
+   ],
+   "notes": "Multi-resource booking is atomic; Location.operationalState constrains slot generation."
+  },
+  {
+   "name": "Attestable",
+   "appliesTo": [
+    "Order",
+    "Event",
+    "Document",
+    "InstrumentResponse",
+    "CountEvent",
+    "Assertion"
+   ],
+   "grants": [
+    "ATTESTED_BY"
+   ],
+   "notes": "Versions carry attestations; edit-is-attest; per-item, never per-note."
+  },
+  {
+   "name": "Embeddable",
+   "appliesTo": [
+    "Concept",
+    "PromptTemplate",
+    "InstrumentDefinition",
+    "ProtocolDefinition",
+    "PolicyRule",
+    "Document(de-identified)"
+   ],
+   "grants": [
+    "versioned embeddings in an external vector index"
+   ],
+   "notes": "Knowledge layer only; instance nodes are never embedded (embed-don't-store). See markdown section 12."
+  }
+ ],
+ "families": [
+  {
+   "id": "F1",
+   "name": "Space",
+   "layer": "instance"
+  },
+  {
+   "id": "F2",
+   "name": "Devices & Sensing",
+   "layer": "instance",
+   "notes": "DeviceModel lives in the knowledge layer"
+  },
+  {
+   "id": "F3",
+   "name": "People & Organization",
+   "layer": "instance"
+  },
+  {
+   "id": "F4",
+   "name": "Populations & Time Containers",
+   "layer": "instance"
+  },
+  {
+   "id": "F5",
+   "name": "Acts & State",
+   "layer": "instance"
+  },
+  {
+   "id": "F6",
+   "name": "Supply",
+   "layer": "instance",
+   "notes": "ItemDefinition lives in the knowledge layer"
+  },
+  {
+   "id": "F7",
+   "name": "Coverage & Financial",
+   "layer": "instance"
+  },
+  {
+   "id": "F8",
+   "name": "Knowledge & Definitions",
+   "layer": "knowledge",
+   "notes": "PHI-free, versioned"
+  },
+  {
+   "id": "F9",
+   "name": "Trust: Agency, Consent & Provenance",
+   "layer": "instance"
+  },
+  {
+   "id": "F10",
+   "name": "Integration",
+   "layer": "instance"
+  }
+ ],
+ "nodeTypes": [
+  {
+   "name": "Location",
+   "family": "F1",
+   "fhirAnalog": "Location",
+   "notes": "Any place, at any scale: a campus contains buildings, buildings contain wings, wings contain rooms, rooms contain beds \u2014 each simply 'part of' the next. A place's readiness (clean / dirty / occupied / blocked) is tracked directly and controls whether it can be booked. A patient's home counts too \u2014 a place the organization doesn't control. (The place vocabulary follows FHIR R5, the only standard that goes down to bed and vehicle.)",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "RtlsZone",
+   "family": "F1",
+   "fhirAnalog": "Location (HL7 RTLS IG profile)",
+   "notes": "A radio-coverage area from the location-tracking system, kept separate from rooms because radio zones don't line up perfectly with walls. Each zone links to the room it covers and carries how confident a 'seen here' reading is \u2014 routing a nurse call demands room-level confidence.",
+   "fhirAlignment": "profiled",
+   "standardsAnchor": "HL7 RTLS IG (ballot)"
+  },
+  {
+   "name": "StockLocation",
+   "family": "F1",
+   "fhirAnalog": null,
+   "notes": "A place that holds supplies. One type covers the dispensing cabinet, the med cart, the crash cart, the vaccine fridge, the school med cabinet, the controlled drawer, a nurse's car trunk, a field-trip kit, and a patient's home shelf \u2014 what differs between them is the rules applied, not the kind of thing.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "no FHIR resource for a supply-holding place; unifies dispensing cabinet / med cart / fridge / kit \u2014 differences are policy, not type"
+  },
+  {
+   "name": "DeviceModel",
+   "family": "F2",
+   "layer": "knowledge",
+   "fhirAnalog": "DeviceDefinition",
+   "notes": "The make-and-model catalog entry, identified by the manufacturer's barcode identity (UDI/GTIN). Recalls and maintenance strategies attach here \u2014 to the model \u2014 and reach every physical unit on site through it.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "DeviceRole",
+   "family": "F2",
+   "fhirAnalog": null,
+   "notes": "A functional slot a device fills: 'the OR 2 anesthesia machine position,' 'the ward kiosk.' The slot stays put while serial-numbered units rotate through it \u2014 which is exactly what keeps swap history intact. (The model / slot / physical-unit three-way split is deliberate and non-negotiable; manufacturing systems call the slot an equipment role, ISA-95.)",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "ISA-95 equipment role"
+  },
+  {
+   "name": "DeviceInstance",
+   "family": "F2",
+   "fhirAnalog": "Device",
+   "notes": "One physical, serial-numbered device. It can contain sub-components (a monitor's modules), and when it senses or acts on its own it counts as an agent \u2014 able to produce readings, never to sign for them.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Tag",
+   "family": "F2",
+   "fhirAnalog": "Device (RTLS IG profile)",
+   "notes": "A tracking beacon (BLE/NFC). Deliberately kept separate from whatever it's attached to \u2014 tags get moved and reused \u2014 with each attachment stored as its own dated record (an Association).",
+   "fhirAlignment": "profiled",
+   "standardsAnchor": "HL7 RTLS IG (ballot)"
+  },
+  {
+   "name": "Association",
+   "family": "F2",
+   "fhirAnalog": "DeviceAssociation (R5)",
+   "notes": "The connection itself, kept as its own record because it changes over time: which tag is on which person, which pump is attached to which patient, which serial number fills which equipment slot. Each binding carries a start and end, so when a tag is reused or a device is swapped, the history survives. (Promoting a relationship to a record of its own is design principle P2; FHIR R5 added DeviceAssociation for exactly this.)",
+   "fhirAlignment": "profiled",
+   "standardsAnchor": "FHIR R5 DeviceAssociation"
+  },
+  {
+   "name": "SensorStream",
+   "family": "F2",
+   "fhirAnalog": "DeviceMetric",
+   "notes": "One named measurement channel on a device: 'fridge F-2 temperature,' 'gateway G-9 signal strength.' The graph keeps the channel and what it means; the flood of raw readings lives in a separate time-series store the channel points into.",
+   "fhirAlignment": "native",
+   "standardsAnchor": "Brick Schema Point"
+  },
+  {
+   "name": "Person",
+   "family": "F3",
+   "fhirAnalog": "Person",
+   "notes": "One human being, however many roles they hold \u2014 a nurse here is also a patient somewhere else. This is the single identity those roles link back to, with each link carrying how confident we are it's the same person.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Patient",
+   "family": "F3",
+   "fhirAnalog": "Patient",
+   "notes": "A person in their role as a receiver of care at a particular organization. Settings rename it \u2014 Student in a school, Resident in a nursing home \u2014 but it's the same type.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Practitioner",
+   "family": "F3",
+   "fhirAnalog": "Practitioner",
+   "notes": "A clinician as a person, independent of any employer. Licenses and credentials belong here, so they follow the person between jobs.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "PractitionerRole",
+   "family": "F3",
+   "fhirAnalog": "PractitionerRole",
+   "notes": "A clinician's job at a particular place and time: this person, at this organization, at this location, in this specialty, for this period. Orders and actions attach to the job, not the person \u2014 so history stays correct when people change jobs. (The demo personas are these.)",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "RelatedPerson",
+   "family": "F3",
+   "fhirAnalog": "RelatedPerson",
+   "notes": "A family member or caregiver who acts in the record \u2014 consents, witnesses, gets trained on a skill. Someone who is merely a phone number on file stays a contact detail; they become a record of their own the moment they do something.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Organization",
+   "family": "F3",
+   "fhirAnalog": "Organization",
+   "notes": "Any organization, nested naturally: health system contains hospital contains department; district contains school. Insurers, pharmacies, agencies, and courts are organizations too.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "OrganizationAffiliation",
+   "family": "F3",
+   "fhirAnalog": "OrganizationAffiliation",
+   "notes": "A relationship between two organizations, kept as its own record so it can carry its own dates and terms: referral agreements, network membership, a hospice operating inside an SNF.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "CareTeam",
+   "family": "F3",
+   "fhirAnalog": "CareTeam",
+   "notes": "A named team around a patient or a purpose \u2014 a code team assembled for one event, or a long-running care team. Members are jobs (or other teams), each with the period they're on it.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Credential",
+   "family": "F3",
+   "fhirAnalog": "Practitioner.qualification",
+   "notes": "A qualification: a license, DEA number, CPR certification, delegation training, program enrollment \u2014 with who issued it, where it's valid, and when it expires. Expiry automatically creates renewal work.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR Practitioner.qualification \u2014 element promoted to node so expiry/verification can drive workflow"
+  },
+  {
+   "name": "VerificationResult",
+   "family": "F3",
+   "fhirAnalog": "VerificationResult",
+   "notes": "The record that a credential was actually checked against its issuing source. Claiming a license and verifying it are kept as two separate facts.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Encounter",
+   "family": "F4",
+   "fhirAnalog": "Encounter",
+   "notes": "One bounded interaction with a patient \u2014 a visit, a session, a stay \u2014 lasting minutes to days, including where the patient was throughout (bay to OR to recovery).",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "EpisodeOfCare",
+   "family": "F4",
+   "fhirAnalog": "EpisodeOfCare",
+   "notes": "A longer arc of care around one condition or program \u2014 a home-health 60-day period, a wound episode, a pregnancy \u2014 owned by one organization and containing many encounters.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Course",
+   "family": "F4",
+   "fhirAnalog": null,
+   "notes": "A planned series of sessions against a protocol \u2014 36 TMS sessions, a chemo regimen, a PT plan, a vaccine series \u2014 where planned-versus-actually-delivered is the whole point. Each session is an encounter numbered within the course.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "no FHIR container for a protocolized planned series with plan-vs-actual; generalizes ProceduralCourse (TMS/Spravato/chemo/PT)"
+  },
+  {
+   "name": "CareRelationship",
+   "family": "F4",
+   "fhirAnalog": null,
+   "notes": "An ongoing relationship with no planned end: has this primary doctor, lives at this facility, enrolled in this program, on this school's roster. Dated from-and-to; when sources disagree about it (attribution disputes), each source's version is kept side by side.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "payer attribution files + FHIR CareTeam/EpisodeOfCare fragments; no single effective-dated relationship state"
+  },
+  {
+   "name": "Panel",
+   "family": "F4",
+   "fhirAnalog": "Group",
+   "notes": "A defined group of people someone is responsible for: a doctor's panel, a school roster, a ward census, a caseload, a sports team, a screening cohort. One type \u2014 what differs is the basis of membership (rostered, assigned, resides, enrolled, team member). Deliberately administrative rather than clinical: this is the mental-model fact kept out of the chart.",
+   "fhirAlignment": "native",
+   "standardsAnchor": "FHIR Group; the non-clinical membershipBasis usage is the novel part"
+  },
+  {
+   "name": "Schedule",
+   "family": "F4",
+   "fhirAnalog": "Schedule",
+   "notes": "The bookable calendar of a person, room, or machine.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Slot",
+   "family": "F4",
+   "fhirAnalog": "Slot",
+   "notes": null,
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Appointment",
+   "family": "F4",
+   "fhirAnalog": "Appointment",
+   "notes": "A booking \u2014 which can claim several openings at once as a single unit (chair + machine + technician), so half-made bookings can't happen.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "WaitlistEntry",
+   "family": "F4",
+   "fhirAnalog": null,
+   "notes": "A patient waiting for a kind of appointment, with their priority and a record of each offer made.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "scheduling-system practice; no FHIR resource"
+  },
+  {
+   "name": "Shift",
+   "family": "F4",
+   "fhirAnalog": null,
+   "notes": "Who is working, in what role, on which unit, for which hours. Staffing rules (ratios, skill-mix quotas) are checked against the shift, not against individuals.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "workforce-scheduling practice; compliance (ratios, Fachkraftquote) computes over it; no FHIR resource"
+  },
+  {
+   "name": "Route",
+   "family": "F4",
+   "fhirAnalog": null,
+   "notes": "An ordered run of stops with the travel between them: a home-health day, a med-cart pass, a lab courier loop, chained transports.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "vehicle-routing / EMS CAD practice; no FHIR resource"
+  },
+  {
+   "name": "Order",
+   "family": "F5",
+   "fhirAnalog": "ServiceRequest | MedicationRequest | DeviceRequest | SupplyRequest | NutritionOrder",
+   "mixins": [
+    "Attestable"
+   ],
+   "notes": "An instruction that something be done \u2014 a medication, a test, a referral, supplies. Renewals and corrections chain to what they replace, so the history of intent is never overwritten.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Event",
+   "family": "F5",
+   "fhirAnalog": "Observation | MedicationAdministration | Procedure | Specimen | ImagingStudy | SupplyDelivery",
+   "mixins": [
+    "Attestable"
+   ],
+   "notes": "Something that happened, always in one shared shape: who or what did it, about whom or what, what was observed or done, when, and where. A blood pressure, a med given, a fridge temperature alarm, a room turned over, a weather advisory about a campus \u2014 clinical or not, same shape. (Design principle P3.)",
+   "fhirAlignment": "native",
+   "standardsAnchor": "W3C SOSA Observation \u2014 structurally isomorphic to FHIR Observation (P3)"
+  },
+  {
+   "name": "Condition",
+   "family": "F5",
+   "fhirAnalog": "Condition",
+   "notes": "A clinical state that persists \u2014 a diagnosis, with when it began and (perhaps) ended \u2014 supported by the events that evidence it. States and happenings are deliberately kept distinct.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Allergy",
+   "family": "F5",
+   "fhirAnalog": "AllergyIntolerance",
+   "notes": "An allergy or intolerance \u2014 a persisting state, handled the same way as Condition.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "InstrumentResponse",
+   "family": "F5",
+   "fhirAnalog": "QuestionnaireResponse",
+   "mixins": [
+    "Attestable"
+   ],
+   "notes": "A filled-out questionnaire or assessment (a PHQ-9, an intake form, an OASIS), linked to the exact versioned form it used. Computed scores become observations of their own.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Task",
+   "family": "F5",
+   "fhirAnalog": "Task",
+   "notes": "A unit of work with an owner, a due time, and a status. Automated pipeline steps use the same shape to carry their inputs and outputs.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Handoff",
+   "family": "F5",
+   "fhirAnalog": "Communication + Task (approximate)",
+   "notes": "Responsibility changing hands, kept as its own record: shift report, transfer, transport, referral, discharge. It knows whether the loop closed \u2014 sent is not the same as received and acted on.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR Communication + Task; I-PASS / SBAR practice standards \u2014 promoted so loop-closure state is first-class"
+  },
+  {
+   "name": "CountEvent",
+   "family": "F5",
+   "fhirAnalog": null,
+   "mixins": [
+    "Attestable"
+   ],
+   "notes": "A check that what's actually there matches what should be there: controlled-drug counts, surgical sponge counts, medication reconciliation, crash-cart seal checks, expiry sweeps \u2014 sometimes requiring a second person to confirm independently. One type; the applicable policy sets the rules.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "controlled-count / med-rec / seal-check practice; FHIR has no verify-actual-vs-expected verb"
+  },
+  {
+   "name": "TransportRequest",
+   "family": "F5",
+   "fhirAnalog": null,
+   "notes": "A request to move someone or something \u2014 a patient, a specimen, a device, supplies \u2014 from one place to another, with the legs of the trip and its requirements (oxygen, an escort, a chain-of-custody log).",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "EMS CAD / hospital transport dispatch practice; no FHIR resource"
+  },
+  {
+   "name": "Alert",
+   "family": "F5",
+   "fhirAnalog": "DetectedIssue",
+   "notes": "Something needing attention \u2014 a care gap, a critical lab result, a threshold breach \u2014 that knows who it was routed to, who it was escalated to, and who acknowledged it. An alert nobody acknowledged is visibly still open, by construction.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Communication",
+   "family": "F5",
+   "fhirAnalog": "Communication",
+   "notes": "A message: a secure chat, a family update, a fax (filed with its full history), a portal thread, a parent notification.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Document",
+   "family": "F5",
+   "fhirAnalog": "DocumentReference | Composition",
+   "mixins": [
+    "Attestable"
+   ],
+   "notes": "A document: a note, a care plan, a consent form's paper trail \u2014 or a court order, which serves as the evidence behind a who-may-decide record.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "IncidentReport",
+   "family": "F5",
+   "fhirAnalog": null,
+   "notes": "An incident: an injury, a fall, a device event (the FDA-reportable kind), an unresolved count discrepancy.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "AHRQ Common Formats / FDA MedWatch"
+  },
+  {
+   "name": "ItemDefinition",
+   "family": "F6",
+   "layer": "knowledge",
+   "fhirAnalog": "Medication | DeviceDefinition | supply catalog",
+   "notes": "The supply catalog entry: a medication, a vaccine, a wound supply, PPE, a blood product, an epi-pen.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "InventoryLot",
+   "family": "F6",
+   "fhirAnalog": null,
+   "notes": "A specific batch on the shelf: lot number, expiry date, quantity \u2014 and who funded it. Publicly-funded and private stock must stay segregated by law, so the funding source rides on the batch itself. A batch can belong to the organization or to a patient (a student's own med bottle).",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "GS1 UDI PI (lot/expiry); fundingSource segregation (VFC/340B/REMS) is regulatory, not FHIR"
+  },
+  {
+   "name": "ParLevel",
+   "family": "F6",
+   "fhirAnalog": null,
+   "notes": "The minimum of an item to keep on hand at a given place. Dropping below it automatically creates restocking work.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "supply-chain par-level practice; no FHIR resource"
+  },
+  {
+   "name": "Coverage",
+   "family": "F7",
+   "fhirAnalog": "Coverage",
+   "notes": "A patient's enrollment in an insurance plan \u2014 with a rank when they have several, settling which insurance pays first.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Plan",
+   "family": "F7",
+   "fhirAnalog": "InsurancePlan",
+   "notes": null,
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "Payer",
+   "family": "F7",
+   "fhirAnalog": "Organization (subtype)",
+   "notes": "An insurer. Payer networks are just organizations, and Germany's two-fund system (care fund vs health fund) is simply two payers that authorize different things.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "EligibilityCheck",
+   "family": "F7",
+   "fhirAnalog": "CoverageEligibilityRequest",
+   "notes": "A moment-in-time answer to 'is this coverage active, and what does it allow?' \u2014 true when checked, decaying afterward. The check date always rides along, so staleness is visible.",
+   "fhirAlignment": "native",
+   "standardsAnchor": "X12 270/271"
+  },
+  {
+   "name": "Authorization",
+   "family": "F7",
+   "fhirAnalog": null,
+   "notes": "The payer's permission for care: what was approved, for how many units, valid until when. Renewals chain to what they replace, and the evidence packet that won the approval stays attached.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "X12 278 / Da Vinci PAS IG; promoted to a node so reauth SUPERSEDES chains and unit ceilings are first-class"
+  },
+  {
+   "name": "Claim",
+   "family": "F7",
+   "fhirAnalog": "Claim",
+   "notes": null,
+   "fhirAlignment": "native",
+   "standardsAnchor": "X12 837"
+  },
+  {
+   "name": "ClaimLine",
+   "family": "F7",
+   "fhirAnalog": "Claim.item",
+   "notes": "One billed service on a claim. Each line names its billing code and rides on a clinician's signed attestation of the underlying care \u2014 no attestation, no claim line.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR Claim.item \u2014 element promoted so SUPPORTED_BY Attestation (no attestation, no claim line) can land per line"
+  },
+  {
+   "name": "Payment",
+   "family": "F7",
+   "fhirAnalog": "PaymentReconciliation",
+   "notes": null,
+   "fhirAlignment": "native",
+   "standardsAnchor": "X12 835"
+  },
+  {
+   "name": "Remittance",
+   "family": "F7",
+   "fhirAnalog": "PaymentReconciliation",
+   "notes": "The payer's response to a claim: what was paid, adjusted, or denied. Denials chain into corrections and appeals.",
+   "fhirAlignment": "native",
+   "standardsAnchor": "X12 835"
+  },
+  {
+   "name": "Concept",
+   "family": "F8",
+   "layer": "knowledge",
+   "fhirAnalog": "CodeSystem concept",
+   "mixins": [
+    "Embeddable"
+   ],
+   "notes": "A standard code and its meaning (SNOMED, LOINC, RxNorm, ICD, or a local code). Patient records point at concepts; the relationships between codes live here in the reference layer and are never copied into patient records.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "SNOMED CT / LOINC / RxNorm / UMLS CUI \u2014 CodeSystem concepts as addressable nodes"
+  },
+  {
+   "name": "ProtocolDefinition",
+   "family": "F8",
+   "layer": "knowledge",
+   "fhirAnalog": "PlanDefinition | ActivityDefinition",
+   "mixins": [
+    "Embeddable"
+   ],
+   "notes": "A reusable definition of how care should go: an order set, a treatment protocol, a standing order, a screening schedule. Applying one to a real patient is itself a recorded action \u2014 so 'which protocol version produced this?' always has an answer.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "InstrumentDefinition",
+   "family": "F8",
+   "layer": "knowledge",
+   "fhirAnalog": "Questionnaire",
+   "mixins": [
+    "Embeddable"
+   ],
+   "notes": "The questionnaire or assessment form itself, versioned. Translations are validated ones only \u2014 never machine-translated.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "PromptTemplate",
+   "family": "F8",
+   "layer": "knowledge",
+   "fhirAnalog": "Library",
+   "mixins": [
+    "Embeddable"
+   ],
+   "notes": "An AI prompt treated like clinical content: versioned, reviewed, and signed off. Every AI run records exactly which prompt version governed it.",
+   "fhirAlignment": "native",
+   "standardsAnchor": "FHIR Library as container; the P&T-governed prompt-as-content practice is the novel part"
+  },
+  {
+   "name": "PolicyRule",
+   "family": "F8",
+   "layer": "knowledge",
+   "fhirAnalog": null,
+   "mixins": [
+    "Embeddable"
+   ],
+   "notes": "A rule an organization sets that blocks an action until it is satisfied: witnessed dispensing, a two-nurse check, a time-out before incision. Rules stack down the org chart \u2014 which is how one schema serves every care setting.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "CQL / CDS Hooks cover fragments; org-scoped verb-gating policy packs composing down the org tree have no FHIR home"
+  },
+  {
+   "name": "Agent",
+   "family": "F9",
+   "fhirAnalog": "Provenance.agent.who",
+   "abstract": true,
+   "notes": "Three concrete classes: human, hardware, software. See agentClasses.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "W3C PROV Agent; FHIR Provenance.agent.who"
+  },
+  {
+   "name": "SoftwareAgent",
+   "family": "F9",
+   "fhirAnalog": "Device (HL7 AI Transparency IG)",
+   "notes": "A specific AI model version \u2014 the voice extractor, the triage model, the route optimizer. It acts only on behalf of an accountable organization, and it can propose but never sign.",
+   "fhirAlignment": "profiled",
+   "standardsAnchor": "HL7 AI Transparency on FHIR IG (draft)"
+  },
+  {
+   "name": "Activity",
+   "family": "F9",
+   "fhirAnalog": "Provenance (activity)",
+   "notes": "One bounded run of work \u2014 an extraction, a detector sweep, a sync job \u2014 recording what it read, which definition governed it, and which earlier run fed into it. The unit of 'how did this get here?'",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "W3C PROV Activity; FHIR Provenance activity"
+  },
+  {
+   "name": "Assertion",
+   "family": "F9",
+   "fhirAnalog": "resource + AIAST tag",
+   "mixins": [
+    "Attestable"
+   ],
+   "notes": "A claim nobody has signed yet: an AI's extracted candidate, a detector's finding, a sensor's inference. Held apart from the official record by construction until a credentialed human acts on it.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "HL7 AIAST tag (AI Transparency IG) \u2014 resource + tag promoted to quarantine class"
+  },
+  {
+   "name": "Attestation",
+   "family": "F9",
+   "fhirAnalog": "Provenance + Signature",
+   "notes": "A human signature over one specific item and version \u2014 never over a whole note at once. It comes in three modes (attest / verify / co-reason), and editing something counts as signing it. Only credentialed humans can do this.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR Provenance + Signature \u2014 promoted so mode (attest/verify/co-reason) and per-item scope are first-class"
+  },
+  {
+   "name": "Consent",
+   "family": "F9",
+   "fhirAnalog": "Consent",
+   "notes": "Permission, precisely scoped: who granted it (not always the patient), for what, revocable, versioned \u2014 and where the law requires, controlling disclosure item by item. Missing consent blocks the action outright.",
+   "fhirAlignment": "native"
+  },
+  {
+   "name": "ConsentAuthority",
+   "family": "F9",
+   "fhirAnalog": null,
+   "notes": "Who may decide for whom, kept as its own record: person x patient x legal basis (self, parent, guardian, POA, Betreuer, court order) x scope x restrictions, with the evidencing document attached (EVIDENCED_BY). One type unifies pediatric guardianship, custody asymmetry, POA, Betreuung, adolescent carve-outs, foster agency, LEO custody.",
+   "fhirAlignment": "novel",
+   "standardsAnchor": "legal instruments (POA, guardianship, Betreuung, court order); FHIR Consent.actor covers a fragment"
+  },
+  {
+   "name": "ExternalSystem",
+   "family": "F10",
+   "fhirAnalog": "Endpoint + Organization",
+   "notes": "Any outside system we exchange with: the EHR, a school information system, a state registry, a pharmacy network, a lab, a weather feed. Nothing enters the graph without a recorded 'came from'; nothing leaves without a recorded 'sent to.'",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR Endpoint + Organization"
+  },
+  {
+   "name": "SyncEvent",
+   "family": "F10",
+   "fhirAnalog": "AuditEvent (adjacent)",
+   "notes": "One recorded act of data arriving from outside \u2014 a roster sync, a feed import.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR AuditEvent (adjacent)"
+  },
+  {
+   "name": "ReportSubmission",
+   "family": "F10",
+   "fhirAnalog": "AuditEvent (adjacent)",
+   "notes": "One recorded act of sending data out \u2014 a registry submission, a state report, a governed write-back to the EHR.",
+   "fhirAlignment": "composite",
+   "standardsAnchor": "FHIR AuditEvent (adjacent)"
+  }
+ ],
+ "edgeTypes": [
+  {
+   "name": "PART_OF",
+   "inverse": "HAS_PART",
+   "category": "structural",
+   "signature": [
+    "Location->Location",
+    "Organization->Organization",
+    "DeviceInstance->DeviceInstance",
+    "Encounter->Encounter"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "'Is part of' \u2014 one containment relationship serving places, organizations, devices, and encounters alike."
+  },
+  {
+   "name": "INSTANCE_OF",
+   "inverse": "HAS_INSTANCE",
+   "category": "structural",
+   "signature": [
+    "DeviceInstance->DeviceModel",
+    "instance->class"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "IMPLEMENTS_ROLE",
+   "inverse": "FILLED_BY",
+   "category": "structural",
+   "signature": [
+    "DeviceInstance->DeviceRole"
+   ],
+   "timeSliced": true,
+   "reified": false,
+   "notes": "Which physical unit fills which slot, and when."
+  },
+  {
+   "name": "INSTANTIATES",
+   "inverse": null,
+   "category": "structural",
+   "signature": [
+    "Event|Order|Course|Activity|InstrumentResponse->F8 definition"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "'Follows this definition' \u2014 connects a real record to the versioned protocol, form, or prompt that shaped it."
+  },
+  {
+   "name": "CODED_AS",
+   "inverse": null,
+   "category": "structural",
+   "signature": [
+    "instance node->Concept"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "MAPS_TO",
+   "inverse": null,
+   "category": "structural",
+   "signature": [
+    "Concept->Concept",
+    "RtlsZone->Location"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Between reference concepts (and radio zones to rooms) \u2014 never on patient records."
+  },
+  {
+   "name": "IS_A",
+   "inverse": null,
+   "category": "structural",
+   "signature": [
+    "Concept->Concept"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Between reference concepts only \u2014 never on patient records."
+  },
+  {
+   "name": "MEMBER_OF",
+   "inverse": "HAS_MEMBER",
+   "category": "structural",
+   "signature": [
+    "Patient->Panel (membershipBasis)",
+    "PractitionerRole->CareTeam (role, period)"
+   ],
+   "timeSliced": true,
+   "reified": false
+  },
+  {
+   "name": "LOCATED_AT",
+   "inverse": "LOCATION_OF",
+   "category": "spatial",
+   "signature": [
+    "DeviceInstance|Person|StockLocation->Location"
+   ],
+   "timeSliced": true,
+   "reified": false,
+   "notes": "Where a movable thing currently is; location tracking keeps it current."
+  },
+  {
+   "name": "AT",
+   "inverse": null,
+   "category": "spatial",
+   "signature": [
+    "Event|Encounter(sliced)|Appointment->Location"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Where something took place; an encounter's location is tracked over time as the patient moves."
+  },
+  {
+   "name": "STORED_AT",
+   "inverse": null,
+   "category": "spatial",
+   "signature": [
+    "InventoryLot->StockLocation (qty)"
+   ],
+   "timeSliced": true,
+   "reified": false
+  },
+  {
+   "name": "COVERS",
+   "inverse": null,
+   "category": "spatial",
+   "signature": [
+    "PractitionerRole->Location",
+    "DeviceRole->Location"
+   ],
+   "timeSliced": true,
+   "reified": false,
+   "notes": "Nurse covers two schools; kiosk serves a Wohnbereich."
+  },
+  {
+   "name": "MONITORS",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "SensorStream->StockLocation|Location|Patient|DeviceInstance"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ATTACHED_TO",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "Tag->DeviceInstance|Person"
+   ],
+   "timeSliced": false,
+   "reified": true,
+   "reifiedVia": "Association",
+   "notes": "What a tag is attached to; the dated binding record (Association) is the source of truth."
+  },
+  {
+   "name": "FEEDS",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "device/system topology"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Functional wiring between systems; used sparingly."
+  },
+  {
+   "name": "CONTROLS",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "device/system topology"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "DEPENDS_ON",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "device/system topology"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ABOUT",
+   "inverse": "SUBJECT_OF",
+   "category": "care",
+   "signature": [
+    "Order|Event|Encounter|Alert|Document->Patient",
+    "Event->Location|DeviceInstance (non-clinical subjects)"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ORDERED_BY",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Order->PractitionerRole"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "FULFILLS",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Event->Order",
+    "Encounter->Appointment"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "'Carries out' \u2014 connects the act to the instruction it fulfills; the middle of order \u2192 event \u2192 sign-off."
+  },
+  {
+   "name": "BASED_ON",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Order->Order|ProtocolDefinition"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "IN_COURSE",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Encounter->Course (seq)"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "IN_EPISODE",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Encounter->EpisodeOfCare"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "PERFORMED_BY",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Event|Task->Agent (function)"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "WITNESSED_BY",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Event|CountEvent->PractitionerRole|RelatedPerson"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "The independent second person in two-person checks."
+  },
+  {
+   "name": "ASSIGNED_TO",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Task->Agent",
+    "DeviceInstance->Patient|Location"
+   ],
+   "timeSliced": true,
+   "reified": true,
+   "reifiedVia": "Association",
+   "notes": "Who or what a task or device is assigned to; device-to-patient assignments keep their dated binding record."
+  },
+  {
+   "name": "OWNED_BY",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Panel->PractitionerRole|Organization",
+    "InventoryLot->Organization|Patient"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "CONSUMED",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Event->InventoryLot (qty)"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "What a clinical act used up \u2014 the same connection that decrements inventory and supports the charge."
+  },
+  {
+   "name": "USED_DEVICE",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Event->DeviceInstance"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "FROM",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Handoff->role|Organization"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "TO",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Handoff->role|Organization"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "REGARDING",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Handoff->Patient|Panel"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "TRANSFERS_RESPONSIBILITY_FOR",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Handoff->Order|Task"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ROUTED_TO",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Alert->Agent"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ESCALATED_TO",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Alert->Agent"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ACKNOWLEDGED_BY",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Alert->Agent"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "The receipt that closes the loop \u2014 someone saw it and owned it."
+  },
+  {
+   "name": "GATES",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "PolicyRule->edge/verb type",
+    "CheckInRecord|RoomingRecord->downstream phase"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Blocks the action outright until the rule is satisfied."
+  },
+  {
+   "name": "EVIDENCED_BY",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Condition|ConsentAuthority|ClaimLine->Event|Document"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "QUARANTINES",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "Event(TempExcursion)->InventoryLot"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "RELATED_TO",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Person->Patient (kind)"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "A social or family relationship only \u2014 being someone's mother grants no permissions here; decision authority is a separate, evidenced record. (Design principle P7.)"
+  },
+  {
+   "name": "HAS_AUTHORITY_FOR",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Person->Patient"
+   ],
+   "timeSliced": true,
+   "reified": true,
+   "reifiedVia": "ConsentAuthority",
+   "notes": "May make decisions for \u2014 with the legal basis, scope, and evidence attached."
+  },
+  {
+   "name": "GRANTED_BY",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Consent->Person"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "PERMITS",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Consent->scope"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "RESTRICTS",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Consent->dataClass|segment|recipient"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "HELD_BY",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Credential->Practitioner"
+   ],
+   "timeSliced": true,
+   "reified": false
+  },
+  {
+   "name": "VERIFIED_BY",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Credential->VerificationResult"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "REQUIRED_FOR",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Credential->PolicyRule"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "LICENSED_IN",
+   "inverse": null,
+   "category": "authority",
+   "signature": [
+    "Practitioner->jurisdiction Concept"
+   ],
+   "timeSliced": true,
+   "reified": false,
+   "notes": "Where a clinician may practice \u2014 makes 'is telehealth allowed for this patient's state?' a simple lookup."
+  },
+  {
+   "name": "GENERATED_BY",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Entity->Activity"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "USED",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Activity->Entity"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "INFORMED_BY",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Activity->Activity"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Which earlier run fed into this one."
+  },
+  {
+   "name": "DERIVED_FROM",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Entity->Entity"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "What this was computed or derived from \u2014 full lineage, all the way back."
+  },
+  {
+   "name": "ATTRIBUTED_TO",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Entity->Agent"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ASSOCIATED_WITH",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Activity->Agent"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ON_BEHALF_OF",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Agent->Agent|Organization"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Acting for whom: software acts for an accountable organization; a delegate acts for a delegator."
+  },
+  {
+   "name": "ASSERTED_BY",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Assertion->Agent (any class)"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ATTESTED_BY",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Entity(version)->human Agent (mode, signature)"
+   ],
+   "timeSliced": false,
+   "reified": true,
+   "reifiedVia": "Attestation",
+   "notes": "The human signature \u2014 only credentialed humans, never software or devices."
+  },
+  {
+   "name": "SUPERSEDES",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Entity->Entity"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Replaces an earlier version without erasing it \u2014 corrections, renewals, and resubmissions all keep their history."
+  },
+  {
+   "name": "INVALIDATED_BY",
+   "inverse": null,
+   "category": "provenance",
+   "signature": [
+    "Entity->Entity"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "COVERED_BY",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "Patient->Coverage"
+   ],
+   "timeSliced": true,
+   "reified": false
+  },
+  {
+   "name": "UNDER_PLAN",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "Coverage->Plan"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ISSUED_BY",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "Plan->Payer"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "AUTHORIZES",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "Authorization->Order|Course|EpisodeOfCare"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "FOR",
+   "inverse": null,
+   "category": "financial|scheduling",
+   "signature": [
+    "Claim->Encounter|Event",
+    "Appointment->Patient"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Overloaded across the financial and scheduling groups in v0.1; candidate for a split in v0.2."
+  },
+  {
+   "name": "BILLS",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "ClaimLine->Concept (CPT/HCPCS/DRG)"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "SUPPORTED_BY",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "ClaimLine->Attestation"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "The billing-integrity edge: no attestation, no claim line."
+  },
+  {
+   "name": "ADJUDICATED_BY",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "Claim->Payer"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ATTRIBUTED_TO_PANEL",
+   "inverse": null,
+   "category": "financial",
+   "signature": [
+    "quality measure->Panel"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Which group a quality measure counts against."
+  },
+  {
+   "name": "OWNS_SCHEDULE",
+   "inverse": null,
+   "category": "scheduling",
+   "signature": [
+    "BookableResource->Schedule"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "HAS_SLOT",
+   "inverse": null,
+   "category": "scheduling",
+   "signature": [
+    "Schedule->Slot"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "BOOKS",
+   "inverse": null,
+   "category": "scheduling",
+   "signature": [
+    "Appointment->Slot (multi-resource atomic)"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "FULFILLED_BY",
+   "inverse": null,
+   "category": "scheduling",
+   "signature": [
+    "Appointment->Encounter"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "SEEKS",
+   "inverse": null,
+   "category": "scheduling",
+   "signature": [
+    "WaitlistEntry->serviceType"
+   ],
+   "timeSliced": false,
+   "reified": false
+  },
+  {
+   "name": "ON_SHIFT",
+   "inverse": null,
+   "category": "scheduling",
+   "signature": [
+    "PractitionerRole->Shift->Location"
+   ],
+   "timeSliced": true,
+   "reified": false
+  },
+  {
+   "name": "SYNCED_FROM",
+   "inverse": null,
+   "category": "integration",
+   "signature": [
+    "node->ExternalSystem (via SyncEvent)"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Where inbound data came from \u2014 nothing enters the graph without it."
+  },
+  {
+   "name": "REPORTED_TO",
+   "inverse": null,
+   "category": "integration",
+   "signature": [
+    "Event|InstrumentResponse->ExternalSystem (via ReportSubmission)"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "Where outbound data went \u2014 nothing leaves without it."
+  },
+  {
+   "name": "RELATES_TO",
+   "inverse": null,
+   "category": "escape-hatch",
+   "signature": [
+    "any->any (kind free-text)"
+   ],
+   "timeSliced": false,
+   "reified": false,
+   "notes": "The one free-form connection, for relationships the catalog doesn't cover yet. Uses are tallied and reviewed quarterly; recurring kinds get promoted to real, named relationships. (Design principle P4.)"
+  }
+ ],
+ "settingExtensionSurfaces": [
+  {
+   "surface": "Location leaf types",
+   "mechanism": "Location.form + subtype",
+   "examples": [
+    "Bed",
+    "Chair/ChairStation",
+    "Cot",
+    "Home",
+    "Wohnbereich",
+    "TriageBay/HallwaySpot",
+    "Vehicle"
+   ]
+  },
+  {
+   "surface": "Role vocabulary",
+   "mechanism": "PractitionerRole.code + Credential requirements",
+   "examples": [
+    "MonitorTech",
+    "Pflegefachkraft",
+    "UAP-with-delegation",
+    "TmsTechnician",
+    "AthleticTrainer",
+    "Betreuungskraft"
+   ]
+  },
+  {
+   "surface": "Policy packs",
+   "mechanism": "PolicyRule sets scoped to Organization, composing down the org tree",
+   "examples": [
+    "District MAR rules",
+    "REMS observation cadence",
+    "two-nurse blood check",
+    "Fachkraftquote per Shift",
+    "restraint renewal q4h",
+    "42 CFR Part 2 disclosure scoping"
+   ]
+  },
+  {
+   "surface": "External bindings",
+   "mechanism": "ExternalSystem nodes + sync/report edges",
+   "examples": [
+    "SIS + IIS (school)",
+    "REMS portal + PDMP (BH)",
+    "EVV aggregator (home health)",
+    "Pflegekasse + Medizinischer Dienst (DE LTC)",
+    "EMS CAD + blood bank (acute)"
+   ]
+  }
+ ],
+ "governance": {
+  "escapeHatchReviewCadence": "quarterly",
+  "fhirRoundTrip": "every dataClass: clinical node/edge must map losslessly to FHIR R4 (R5-aware where noted)",
+  "versioning": "append-only; node/edge types carry since and deprecated markers, never removal",
+  "extensionRule": "product teams extend by authoring F8 artifacts (policy packs, protocols, instruments, prompts), not by adding node types"
+ },
+ "fhirAlignmentTiers": {
+  "native": "Maps one-to-one onto a standard FHIR record \u2014 exports losslessly.",
+  "profiled": "A FHIR base type under a published profile or implementation guide (HL7's extension mechanism), or one that exists only in FHIR R5.",
+  "composite": "Built from FHIR pieces \u2014 a fragment or combination promoted to a record of its own so it can carry state and signatures.",
+  "novel": "No FHIR equivalent exists \u2014 the deliberate divergence list. Each entry names the non-FHIR standard or practice it is anchored to, where one exists."
+ }
+}
