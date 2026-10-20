@@ -1,5 +1,15 @@
+<link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+<style>
+  /* Cayman stacks header buttons full-width on phones; keep them compact. */
+  @media screen and (max-width: 42em) {
+    .page-header .btn { display: inline-block; width: auto; margin: 0 0.25rem 0.5rem; padding: 0.5rem 0.9rem; }
+  }
+  /* Let the metagraph scroll sideways on narrow screens instead of shrinking to illegible. */
+  .mermaid { overflow-x: auto; }
+  @media screen and (max-width: 42em) { .mermaid svg { min-width: 720px; } }
+</style>
 <!-- Render fenced ```mermaid code blocks as diagrams. GitHub.com does this
-     automatically; GitHub Pages (Jekyll) does not ship mermaid.js, so Jekyll
+     automatically. GitHub Pages (Jekyll) does not ship mermaid.js, so Jekyll
      emits <pre><code class="language-mermaid"> and we upgrade it here. Cayman
      includes this file inside <head>; module scripts are deferred, so the DOM
      is parsed by the time this runs. Mermaid loads only when a diagram exists. -->
@@ -7,7 +17,7 @@
   const blocks = document.querySelectorAll("pre > code.language-mermaid");
   if (blocks.length) {
     const { default: mermaid } = await import(
-      "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+      "https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.esm.min.mjs"
     );
     blocks.forEach((code) => {
       const div = document.createElement("div");

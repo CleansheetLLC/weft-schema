@@ -1,9 +1,16 @@
 title: The Weft Schema
 description: >-
-  A unified graph schema for healthcare — clinical, facility, device, people,
-  supply, financial, and AI-provenance in one metagraph. CC BY 4.0.
+  A unified graph schema for healthcare. Five domains usually modeled apart
+  (clinical, people, facility, devices, and AI provenance) in one typed graph.
+url: https://weftgraph.org
+lang: en-US
 theme: jekyll-theme-cayman
-# The landing page renders README.md; SPEC.md, CHANGELOG.md, and weft.json are
-# served alongside (Markdown files build to .html; jekyll-relative-links rewrites
-# the .md links in README to their .html targets). .zenodo.json and other
-# dotfiles are excluded from the built site by Jekyll's defaults.
+image: /assets/weft-og.png
+plugins:
+  - jekyll-sitemap
+# index.md is the landing page. README.md stays the GitHub-facing front door and
+# is also built (as README.html). SPEC.md, CHANGELOG.md, and weft.json are served
+# alongside; Markdown files build to .html. Dotfiles such as .zenodo.json are
+# excluded from the built site by Jekyll's defaults.
+twitter:
+  card: summary_large_image

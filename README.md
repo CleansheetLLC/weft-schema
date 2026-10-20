@@ -1,30 +1,30 @@
 # Weft
 
-**A unified graph schema for healthcare** — clinical, facility, device, people, supply, financial, and AI-provenance in one metagraph.
+**A unified graph schema for healthcare.** Five domains usually modeled apart (clinical, people, facility, devices, and AI provenance) in one typed graph.
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21806130.svg)](https://doi.org/10.5281/zenodo.21806130)
 
-| | |
+| Field | Value |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.1.1 |
 | **Date** | 2026-08 |
 | **Steward** | Cleansheet LLC |
 | **License** | [CC BY 4.0](LICENSE) |
 | **Canonical home** | https://weftgraph.org |
-| **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) — concept DOI, resolves to the latest version |
+| **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) (concept DOI; resolves to the latest version) |
 
 ---
 
 ## What Weft is
 
 Weft defines the node types, edge types, and modeling rules for representing everything a
-clinician's mental model actually touches — equipment, locations, people, clinical facts,
-money, supply, and AI reasoning; across hardware, software, and human (wetware) agents — as a
-single typed graph. The *weft* is the cross-thread that binds separate strands into one fabric;
+clinician's mental model actually touches as a single typed graph: equipment, locations,
+people, clinical facts, money, supply, and AI reasoning, across hardware, software, and human
+(wetware) agents. The *weft* is the cross-thread that binds separate strands into one fabric;
 the schema binds five domains normally modeled in isolation into one metagraph.
 
-Weft fuses five domains the literature and industry model **separately** — clinical acts,
+Weft fuses five domains the literature and industry model **separately**: clinical acts,
 people/organization, facility/space, device/sensing, and trust/AI-provenance. Biomedical
 knowledge graphs are knowledge-only; EHR graphs are patient-only; building ontologies are
 facility-only; CMDBs are IT-only. Every construct traces its lineage to a recognized standard
@@ -35,20 +35,20 @@ primitives are precedented; the combination is the contribution.**
 
 | File | What it is |
 |---|---|
-| [`SPEC.md`](SPEC.md) | The specification — 10 node families, 70 node types, 77 typed edges, 8 design principles, agent trichotomy, setting extension, standards lineage. Narrative source of truth. |
-| [`weft.json`](weft.json) | Normative machine-readable projection — full node/edge catalog with families, mixins, `dataClass`, `fhirAlignment`, and `standardsAnchor`. Tooling validates against this. |
+| [`SPEC.md`](SPEC.md) | The specification: 10 node families, 70 node types, 77 typed edges, 8 design principles, agent trichotomy, setting extension, standards lineage. Narrative source of truth. |
+| [`weft.json`](weft.json) | Normative machine-readable projection: the full node/edge catalog with families, mixins, `dataClass`, `fhirAlignment`, and `standardsAnchor`. Tooling validates against this. |
 | [`CHANGELOG.md`](CHANGELOG.md) | Versioned change history. |
 | [`CITATION.cff`](CITATION.cff) | Machine-readable citation metadata (GitHub "Cite this repository"; read by Zenodo). |
 | [`LICENSE`](LICENSE) | CC BY 4.0 legal code. |
-| [`.zenodo.json`](.zenodo.json) | Deposit metadata for the Zenodo archive. |
+| [`.zenodo.json`](https://github.com/CleansheetLLC/weft-schema/blob/main/.zenodo.json) | Deposit metadata for the Zenodo archive. |
 
 ## How to cite
 
-> *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://doi.org/10.5281/zenodo.21806130
+> *The Weft Schema, v0.1.1.* Cleansheet LLC, 2026. https://doi.org/10.5281/zenodo.21806130
 
 Or, citing the canonical home:
 
-> *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://weftgraph.org
+> *The Weft Schema, v0.1.1.* Cleansheet LLC, 2026. https://weftgraph.org
 
 ## Status and defensive publication
 
@@ -58,8 +58,8 @@ patentable subject matter; publication establishes the fusion architecture in th
 and supports open citation and implementation.
 
 The specification and its machine projection are the open layer. The executable pipeline that
-extracts, traverses, validates, and scaffolds against this schema — and the corpora, policy
-packs, and fixtures that exercise it — are **not** part of this publication.
+extracts, traverses, validates, and scaffolds against this schema, and the corpora, policy
+packs, and fixtures that exercise it, are **not** part of this publication.
 
 Weft is versioned append-only: node and edge types carry `since` / `deprecated` markers and are
 never removed. Product teams extend Weft by authoring artifacts (policy packs, protocols,
