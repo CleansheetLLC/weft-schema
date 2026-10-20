@@ -13,8 +13,8 @@ defaults:
       image: /assets/weft-og.png
 plugins:
   - jekyll-sitemap
-# index.md is the landing page. README.md stays the GitHub-facing front door and
-# is also built (as README.html). SPEC.md, CHANGELOG.md, and weft.json are served
+# index.md is the landing page; README.md is the GitHub-facing front door and is
+# not built when an index exists. SPEC.md, CHANGELOG.md, and weft.json are served
 # alongside; Markdown files build to .html. Dotfiles such as .zenodo.json are
 # excluded from the built site by Jekyll's defaults.
 twitter:
