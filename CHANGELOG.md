@@ -5,7 +5,7 @@ All notable changes to the Weft Schema are recorded here. Weft follows
 carry `since` / `deprecated` markers and are never removed, so a minor version never breaks a
 conforming implementation of an earlier one.
 
-Each released version is archived with a version-specific DOI (see [README](README.md)).
+Each released version is archived with a version-specific DOI (see [How to cite](https://weftgraph.org/#cite)).
 
 ## [0.1.1] — 2026-08
 

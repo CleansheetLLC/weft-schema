@@ -5,7 +5,12 @@ description: >-
 url: https://weftgraph.org
 lang: en-US
 theme: jekyll-theme-cayman
-image: /assets/weft-og.png
+tagline: A unified graph schema for healthcare
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/weft-og.png
 plugins:
   - jekyll-sitemap
 # index.md is the landing page. README.md stays the GitHub-facing front door and
