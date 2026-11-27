@@ -7,9 +7,9 @@
 
 | Field | Value |
 |---|---|
-| **Version** | 0.1.1 |
-| **Date** | 2026-08 |
-| **Steward** | Cleansheet LLC |
+| **Version** | 0.2 (draft) |
+| **Date** | 2026-11 |
+| **Steward** | Cleansheet Inc. |
 | **License** | [CC BY 4.0](LICENSE) |
 | **Canonical home** | https://weftgraph.org |
 | **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) (concept DOI; resolves to the latest version) |
@@ -35,7 +35,7 @@ primitives are precedented; the combination is the contribution.**
 
 | File | What it is |
 |---|---|
-| [`SPEC.md`](SPEC.md) | The specification: 10 node families, 70 node types, 77 typed edges, 8 design principles, agent trichotomy, setting extension, standards lineage. Narrative source of truth. |
+| [`SPEC.md`](SPEC.md) | The specification: 10 node families, 70 node types, 85 typed edges, 8 design principles, agent trichotomy, setting extension, standards lineage. Narrative source of truth. |
 | [`weft.json`](weft.json) | Normative machine-readable projection: the full node/edge catalog with families, mixins, `dataClass`, `fhirAlignment`, and `standardsAnchor`. Tooling validates against this. |
 | [`CHANGELOG.md`](CHANGELOG.md) | Versioned change history. |
 | [`CITATION.cff`](CITATION.cff) | Machine-readable citation metadata (GitHub "Cite this repository"; read by Zenodo). |
@@ -44,11 +44,11 @@ primitives are precedented; the combination is the contribution.**
 
 ## How to cite
 
-> *The Weft Schema, v0.1.1.* Cleansheet LLC, 2026. https://doi.org/10.5281/zenodo.21806130
+> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://doi.org/10.5281/zenodo.21806130
 
 Or, citing the canonical home:
 
-> *The Weft Schema, v0.1.1.* Cleansheet LLC, 2026. https://weftgraph.org
+> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://weftgraph.org
 
 ## Status and defensive publication
 
@@ -67,11 +67,11 @@ instruments, prompts), not by adding node types.
 
 ## License and attribution
 
-Copyright © 2026 Cleansheet LLC. Licensed under
+Copyright © 2026 Cleansheet Inc. Licensed under
 [Creative Commons Attribution 4.0 International](LICENSE). You may share and adapt the material,
 including commercially, provided you give
 appropriate credit, link to the license, and indicate if changes were made. Attribute as shown
 under **How to cite**.
 
-*"Weft" is used by Cleansheet LLC as the name of this schema; trademark rights in the name are
+*"Weft" is used by Cleansheet Inc. as the name of this schema; trademark rights in the name are
 reserved and are not licensed under CC BY 4.0.*

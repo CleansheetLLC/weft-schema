@@ -9,7 +9,7 @@ software or person is accountable for each claim. Weft defines the node types, e
 and modeling rules that put all five into **one typed graph**, so a single query can cross
 them.
 
-- **10** node families, **70** node types, **77** typed edges (closed catalog, named inverses, one monitored escape hatch)
+- **10** node families, **70** node types, **85** typed edges (closed catalog, named inverses, one monitored escape hatch)
 - **Built on** FHIR R4/R5, W3C PROV, SOSA/SSN, Brick, SNOMED CT, ISA-95, GS1 UDI, and OCEL 2.0
 
 **[Read the specification](SPEC.html)** · [Download `weft.json`](weft.json) · [Changelog](CHANGELOG.html)
@@ -107,19 +107,19 @@ instruments, prompts), not by adding node types. To propose a change to the core
 
 ## Cite
 
-> *The Weft Schema, v0.1.1.* Cleansheet LLC, 2026. [https://doi.org/10.5281/zenodo.21806130](https://doi.org/10.5281/zenodo.21806130)
+> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. [https://doi.org/10.5281/zenodo.21806130](https://doi.org/10.5281/zenodo.21806130)
 
 The DOI is a concept DOI and always resolves to the latest version. Machine-readable
 citation metadata is in [`CITATION.cff`](CITATION.cff).
 
 ## Status
 
-Version 0.1.1, August 2026. Stewarded by Cleansheet LLC.
+Version 0.2 (draft), November 2026. Stewarded by Cleansheet Inc. (formerly Cleansheet LLC).
 
 This specification is published in part as a **defensive publication**: a public, dated,
 enabling disclosure that places the five-domain fusion in the public record. The
 specification and its machine projection are the open layer. Reference tooling, corpora,
 and policy packs are not part of this publication.
 
-*"Weft" is used by Cleansheet LLC as the name of this schema. Trademark rights in the name
+*"Weft" is used by Cleansheet Inc. as the name of this schema. Trademark rights in the name
 are reserved and are not licensed under CC BY 4.0.*

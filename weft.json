@@ -1,16 +1,16 @@
 {
  "name": "cleansheet-ontology",
  "schema": "Weft",
- "version": "0.1.0",
+ "version": "0.2.0",
  "status": "draft",
- "date": "2026-08",
- "publisher": "Cleansheet LLC",
+ "date": "2026-11",
+ "publisher": "Cleansheet Inc.",
  "license": "CC-BY-4.0",
  "licenseNote": "Trademark rights in the name \"Weft\" are reserved and are not licensed under CC BY 4.0.",
  "canonicalUrl": "https://weftgraph.org",
  "doi": "10.5281/zenodo.21806130",
- "citeAs": "The Weft Schema, v0.1, Cleansheet LLC, 2026, https://weftgraph.org",
- "source": "The Weft Schema, v0.1 (SPEC.md)",
+ "citeAs": "The Weft Schema, v0.2, Cleansheet Inc., 2026, https://weftgraph.org",
+ "source": "The Weft Schema, v0.2 (SPEC.md)",
  "description": "Machine-readable projection of the Weft schema: node families, node types, edge types, mixins, and modeling rules. The `notes` fields are plain-language display copy for each construct; SPEC.md is the narrative source of truth.",
  "verbTriple": {
   "pattern": [
@@ -905,11 +905,20 @@
    "inverse": "LOCATION_OF",
    "category": "spatial",
    "signature": [
-    "DeviceInstance|Person|StockLocation->Location"
+    "DeviceInstance|Person|StockLocation->Location",
+    "Patient->Location (basis)"
    ],
    "timeSliced": true,
    "reified": false,
-   "notes": "Where a movable thing currently is; location tracking keeps it current."
+   "notes": "Where a movable thing currently is; location tracking keeps it current. Since 0.2 a placement says how it is known: basis = sensed (a tag was read), scheduled (derived from a timetable, not observed) or authored (someone entered it). A scheduled placement must never be presented as a sensed one.",
+   "properties": {
+    "basis": [
+     "sensed",
+     "scheduled",
+     "authored"
+    ]
+   },
+   "widened": "0.2"
   },
   {
    "name": "AT",
@@ -1003,10 +1012,13 @@
    "category": "care",
    "signature": [
     "Order|Event|Encounter|Alert|Document->Patient",
-    "Event->Location|DeviceInstance (non-clinical subjects)"
+    "Event->Location|DeviceInstance (non-clinical subjects)",
+    "Consent|CareRelationship|WaitlistEntry|Credential|CountEvent|Condition|Communication->Patient"
    ],
    "timeSliced": false,
-   "reified": false
+   "reified": false,
+   "notes": "Widened in 0.2: consent, standing relationships, waitlist entries, credentials, counts, conditions and communications name their subject with the same edge.",
+   "widened": "0.2"
   },
   {
    "name": "ORDERED_BY",
@@ -1024,11 +1036,13 @@
    "category": "care",
    "signature": [
     "Event->Order",
-    "Encounter->Appointment"
+    "Encounter->Appointment",
+    "InventoryLot->Order (the dispensed supply that fills an order)"
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "'Carries out' — connects the act to the instruction it fulfills; the middle of order → event → sign-off."
+   "notes": "'Carries out' — connects the act to the instruction it fulfills; the middle of order → event → sign-off. Widened in 0.2: the bottle dispensed against an order fulfils it (FHIR MedicationDispense.authorizingPrescription; SupplyDelivery.basedOn).",
+   "widened": "0.2"
   },
   {
    "name": "BASED_ON",
@@ -1131,10 +1145,13 @@
    "inverse": null,
    "category": "care",
    "signature": [
-    "Handoff->role|Organization"
+    "Handoff->role|Organization",
+    "Route->Location"
    ],
    "timeSliced": false,
-   "reified": false
+   "reified": false,
+   "notes": "Widened in 0.2: where a route departs from.",
+   "widened": "0.2"
   },
   {
    "name": "TO",
@@ -1151,10 +1168,13 @@
    "inverse": null,
    "category": "care",
    "signature": [
-    "Handoff->Patient|Panel"
+    "Handoff->Patient|Panel",
+    "Communication->Patient|Panel|Condition"
    ],
    "timeSliced": false,
-   "reified": false
+   "reified": false,
+   "notes": "Widened in 0.2: a communication can be regarding a patient, a panel, or a specific concern.",
+   "widened": "0.2"
   },
   {
    "name": "TRANSFERS_RESPONSIBILITY_FOR",
@@ -1489,7 +1509,7 @@
    ],
    "timeSliced": false,
    "reified": false,
-   "notes": "Overloaded across the financial and scheduling groups in v0.1; candidate for a split in v0.2."
+   "notes": "Overloaded across the financial and scheduling groups since v0.1. The split is deferred past 0.2: no setting has yet been blocked by it."
   },
   {
    "name": "BILLS",
@@ -1614,6 +1634,123 @@
    "timeSliced": false,
    "reified": false,
    "notes": "Where outbound data went — nothing leaves without it."
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "COUNTS",
+   "inverse": "COUNTED_BY",
+   "category": "care",
+   "signature": [
+    "CountEvent->InventoryLot|StockLocation|Order|Encounter"
+   ],
+   "notes": "What a count counts: a bottle, a drawer, an order's supply, or the instruments and sponges of a case. Promoted from RELATES_TO{kind: counts}.",
+   "standardsAnchor": "FHIR InventoryReport; DEA 21 CFR 1304 inventory records; AORN surgical count guideline",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "AMENDS",
+   "inverse": "AMENDED_BY",
+   "category": "provenance",
+   "signature": [
+    "Document->Entity"
+   ],
+   "notes": "A dated addendum beside a locked record. The original stays current and unchanged; unlike SUPERSEDES, nothing is replaced. (Design principle P6.)",
+   "standardsAnchor": "FHIR DocumentReference.relatesTo (appends); HL7 CDA addendum; W3C PROV wasRevisionOf",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "FOR_ITEM",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "ParLevel->ItemDefinition"
+   ],
+   "notes": "The item a minimum-on-hand level is set for. Promoted from RELATES_TO{kind: par-for-item}.",
+   "standardsAnchor": "GS1 item master; FHIR InventoryItem / SupplyRequest",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "HELD_AT",
+   "inverse": null,
+   "category": "spatial",
+   "signature": [
+    "ParLevel->StockLocation"
+   ],
+   "notes": "The place a minimum-on-hand level applies to. Promoted from RELATES_TO{kind: par-at-stock}.",
+   "standardsAnchor": "GS1; supply-chain par-level practice",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "BINDS",
+   "inverse": "BOUND_BY",
+   "category": "functional",
+   "signature": [
+    "Association->Tag|DeviceInstance"
+   ],
+   "notes": "The device or tag end of a dated binding record. With BOUND_TO, names the two ends of the reified Association behind ATTACHED_TO and ASSIGNED_TO. Promoted from RELATES_TO{kind: binds-device}.",
+   "standardsAnchor": "FHIR R5 DeviceAssociation.device; ISA-95",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": true,
+   "reified": false,
+   "name": "BOUND_TO",
+   "inverse": null,
+   "category": "functional",
+   "signature": [
+    "Association->Person|Patient|DeviceInstance|Location|Encounter"
+   ],
+   "notes": "The subject end of a dated binding record: who or what the device or tag is bound to. Promoted from RELATES_TO{kind: binds-subject}.",
+   "standardsAnchor": "FHIR R5 DeviceAssociation.subject",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": true,
+   "reified": false,
+   "name": "WITH",
+   "inverse": null,
+   "category": "care",
+   "signature": [
+    "CareRelationship->PractitionerRole|Organization"
+   ],
+   "notes": "The clinician or organization a standing care relationship is with (a resident's own physician). Promoted from RELATES_TO{kind: with-practitioner}.",
+   "standardsAnchor": "FHIR CareTeam.participant / Patient.generalPractitioner",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "IMPLICATES",
+   "inverse": "IMPLICATED_IN",
+   "category": "care",
+   "signature": [
+    "Alert->Order|Event|Condition"
+   ],
+   "notes": "What a detected issue points at: the order, result or condition that triggered it. Promoted from RELATES_TO{kind: implicates}.",
+   "standardsAnchor": "FHIR DetectedIssue.implicated",
+   "since": "0.2"
+  },
+  {
+   "timeSliced": false,
+   "reified": false,
+   "name": "SETTLES",
+   "inverse": "SETTLED_BY",
+   "category": "financial",
+   "signature": [
+    "Payment|Remittance->Claim|ClaimLine"
+   ],
+   "notes": "The claim a payment or remittance advice applies to. Promoted from RELATES_TO{kind: pays-claim | remits-claim}.",
+   "standardsAnchor": "X12 835; FHIR PaymentReconciliation / ExplanationOfBenefit",
+   "since": "0.2"
   },
   {
    "name": "RELATES_TO",

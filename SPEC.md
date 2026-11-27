@@ -4,14 +4,14 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) · 2026-08 |
-| **Publisher / steward** | Cleansheet LLC |
+| **Version** | 0.2 (draft) · 2026-11 |
+| **Publisher / steward** | Cleansheet Inc. |
 | **Status** | Public specification — open for citation and implementation |
 | **License** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | **Canonical home** | https://weftgraph.org |
 | **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) (concept DOI — resolves to the latest version) |
 | **Machine projection** | A normative machine-readable projection accompanies this specification (`weft.json`) |
-| **Cite as** | *The Weft Schema, v0.1.* Cleansheet LLC, 2026. https://weftgraph.org |
+| **Cite as** | *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://weftgraph.org |
 
 > **What Weft is.** Weft defines the node types, edge types, and modeling rules for representing everything a clinician's mental model actually touches — equipment, locations, people, clinical facts, money, supply, and AI reasoning; across hardware, software, and human (wetware) agents — as a single typed graph. The *weft* is the cross-thread that binds separate strands into one fabric; the schema binds five domains that are normally modeled in isolation into one metagraph.
 
@@ -37,7 +37,7 @@ Every construct in Weft names its lineage in a recognized standard (see [§13](#
 |---|---|
 | Node families | 10 |
 | Node types | 70 (closed catalog) |
-| Edge types | 77 forward types (closed catalog with named inverses) + 1 monitored escape hatch |
+| Edge types | 85 forward types (closed catalog with named inverses) + 1 monitored escape hatch. Nine were promoted from the escape hatch in v0.2 (marked *since 0.2* in §5); v0.1 held 76 forward types plus the hatch, which its text counted together as 77 |
 | Standards lineage | FHIR R4/R5, W3C PROV, SOSA/SSN, Brick/RealEstateCore, SNOMED CT, ISA-95, GS1 UDI, OCEL 2.0 |
 
 ---
@@ -253,9 +253,10 @@ Closed vocabulary. Direction reads left→right; named inverse in parentheses; �
 ### Spatial & placement
 | Edge | Signature | Notes |
 |---|---|---|
-| `LOCATED_AT` † (LOCATION_OF) | DeviceInstance/Person/StockLocation→Location | The moving-things edge; RTLS materializes it |
+| `LOCATED_AT` † (LOCATION_OF) | DeviceInstance/Person/StockLocation→Location; Patient→Location | The moving-things edge; RTLS materializes it. *Since 0.2* a placement carries `basis ∈ {sensed, scheduled, authored}`: read from a tag, derived from a timetable, or entered by a person. A scheduled placement must never be presented as a sensed one |
 | `AT` | Event/Encounter(sliced)/Appointment→Location | Occurrence placement |
 | `STORED_AT` † | InventoryLot→StockLocation (qty) | |
+| `HELD_AT` | ParLevel→StockLocation | *Since 0.2.* The place a minimum-on-hand level applies to |
 | `COVERS` † | PractitionerRole→Location; Kiosk(DeviceRole)→Location | One role covers two sites; a kiosk serves a wing |
 
 ### Functional topology
@@ -263,14 +264,16 @@ Closed vocabulary. Direction reads left→right; named inverse in parentheses; �
 |---|---|---|
 | `MONITORS` | SensorStream→StockLocation/Location/Patient/DeviceInstance | |
 | `ATTACHED_TO` ‡ | Tag→DeviceInstance/Person | Source of truth is the Association node |
+| `BINDS` (BOUND_BY) / `BOUND_TO` † | Association→Tag/DeviceInstance; Association→Person/Patient/DeviceInstance/Location/Encounter | *Since 0.2.* The two ends of the dated binding record behind `ATTACHED_TO` and `ASSIGNED_TO` (FHIR R5 DeviceAssociation `device` / `subject`) |
+| `FOR_ITEM` | ParLevel→ItemDefinition | *Since 0.2.* The item a minimum-on-hand level is set for |
 | `FEEDS` / `CONTROLS` / `DEPENDS_ON` | device/system topology | Brick/CMDB verbs, used sparingly |
 
 ### Care & workflow
 | Edge | Signature | Notes |
 |---|---|---|
-| `ABOUT` (SUBJECT_OF) | Order/Event/Encounter/Alert/Document→Patient (or Location/DeviceInstance for non-clinical subjects) | FHIR `subject`, generalized per Observation's Device/Location subjects |
+| `ABOUT` (SUBJECT_OF) | Order/Event/Encounter/Alert/Document→Patient (or Location/DeviceInstance for non-clinical subjects); *since 0.2* also Consent/CareRelationship/WaitlistEntry/Credential/CountEvent/Condition/Communication→Patient | FHIR `subject`, generalized per Observation's Device/Location subjects |
 | `ORDERED_BY` | Order→PractitionerRole | |
-| `FULFILLS` | Event→Order; Encounter→Appointment | The verb-triple spine |
+| `FULFILLS` | Event→Order; Encounter→Appointment; *since 0.2* InventoryLot→Order | The verb-triple spine. A bottle dispensed against an order fulfils it |
 | `BASED_ON` | Order→Order/ProtocolDefinition | |
 | `IN_COURSE` (seq) | Encounter→Course | |
 | `IN_EPISODE` | Encounter→EpisodeOfCare | |
@@ -279,8 +282,11 @@ Closed vocabulary. Direction reads left→right; named inverse in parentheses; �
 | `ASSIGNED_TO` † ‡ | Task→Agent; DeviceInstance→Patient/Location | Association node is source of truth for device↔patient |
 | `OWNED_BY` | Panel→PractitionerRole/Organization; InventoryLot→Organization/Patient | |
 | `CONSUMED` (qty) | Event→InventoryLot | Clinical act → inventory decrement → charge |
+| `COUNTS` (COUNTED_BY) | CountEvent→InventoryLot/StockLocation/Order/Encounter | *Since 0.2.* What a count counts: a bottle, a drawer, an order's supply, or the instruments and sponges of a case |
+| `WITH` † | CareRelationship→PractitionerRole/Organization | *Since 0.2.* Who a standing care relationship is with |
+| `IMPLICATES` (IMPLICATED_IN) | Alert→Order/Event/Condition | *Since 0.2.* What a detected issue points at (FHIR `DetectedIssue.implicated`) |
 | `USED_DEVICE` | Event→DeviceInstance | |
-| `FROM` / `TO` / `REGARDING` / `TRANSFERS_RESPONSIBILITY_FOR` | Handoff edges | |
+| `FROM` / `TO` / `REGARDING` / `TRANSFERS_RESPONSIBILITY_FOR` | Handoff edges | *Since 0.2* `REGARDING` also runs Communication→Patient/Panel/Condition, and `FROM` runs Route→Location |
 | `ROUTED_TO` / `ESCALATED_TO` / `ACKNOWLEDGED_BY` | Alert→Agent | Closed-loop; ack is the loop-closing edge |
 | `GATES` | PolicyRule→edge/verb type; a completed check-in/rooming `Event`→downstream phase | Gate semantics: hard-block until satisfied |
 | `EVIDENCED_BY` | Condition/ConsentAuthority/ClaimLine→Event/Document | |
@@ -308,9 +314,10 @@ Closed vocabulary. Direction reads left→right; named inverse in parentheses; �
 | `ASSERTED_BY` | Assertion→Agent (any class) | |
 | `ATTESTED_BY` ‡ | Entity(version)→human Agent (`mode`, signature) | Via Attestation node. **Human agents only** |
 | `SUPERSEDES` / `INVALIDATED_BY` | Entity→Entity | Append-only corrections; re-generation supersedes |
+| `AMENDS` (AMENDED_BY) | Document→Entity | *Since 0.2.* A dated addendum beside a locked record: the original stays current and unchanged, so this is not `SUPERSEDES` (FHIR `DocumentReference.relatesTo` *appends*) |
 
 ### Financial
-`COVERED_BY` † (Patient→Coverage) · `UNDER_PLAN` · `ISSUED_BY` · `AUTHORIZES` (Authorization→Order/Course/Episode) · `FOR` (Claim→Encounter/Event) · `BILLS` (ClaimLine→Concept[CPT/HCPCS/DRG]) · `SUPPORTED_BY` (ClaimLine→Attestation) · `ADJUDICATED_BY` (Claim→Payer) · `ATTRIBUTED_TO_PANEL` (quality measures→Panel denominator)
+`COVERED_BY` † (Patient→Coverage) · `UNDER_PLAN` · `ISSUED_BY` · `AUTHORIZES` (Authorization→Order/Course/Episode) · `FOR` (Claim→Encounter/Event) · `BILLS` (ClaimLine→Concept[CPT/HCPCS/DRG]) · `SUPPORTED_BY` (ClaimLine→Attestation) · `ADJUDICATED_BY` (Claim→Payer) · `ATTRIBUTED_TO_PANEL` (quality measures→Panel denominator) · `SETTLES` (Payment/Remittance→Claim/ClaimLine, *since 0.2*)
 
 ### Scheduling
 `OWNS_SCHEDULE` (BookableResource→Schedule) · `HAS_SLOT` · `BOOKS` (Appointment→Slot, multi-resource atomic) · `FOR` (Appointment→Patient) · `FULFILLED_BY` (Appointment→Encounter) · `SEEKS` (WaitlistEntry→serviceType) · `ON_SHIFT` † (PractitionerRole→Shift→Location)
@@ -391,7 +398,7 @@ Each supported use case must be a path (or query) over the schema. A representat
 
 **Open-loop safety-net sweep** — a single anti-join: all Orders and result-Events in scope with no `ATTESTED_BY`/`ACKNOWLEDGED_BY` edge inside their policy window. P6 makes this *the* canonical query: `Order ←FULFILLS– Event –?ATTESTED_BY→ ∅`.
 
-**Controlled count** — a `CountEvent` on a controlled-substance `StockLocation`, `PERFORMED_BY` a Nurse and `WITNESSED_BY` a second staffer (two async `Attestation`s), with a district `PolicyRule` that `GATES` the count; a discrepancy spawns a blind-recount `CountEvent` and an `IncidentReport`. Photo evidence is a `Document —GENERATED_BY→ Activity —ASSOCIATED_WITH→ SoftwareAgent(vision-assist)` (an Assertion); counts are attested by human agents only. The count-to-drawer link rides the `RELATES_TO{kind: counts}` escape hatch — a kind recurring across settings, hence a live P4 promotion candidate.
+**Controlled count** — a `CountEvent` on a controlled-substance `StockLocation`, `PERFORMED_BY` a Nurse and `WITNESSED_BY` a second staffer (two async `Attestation`s), with a district `PolicyRule` that `GATES` the count; a discrepancy spawns a blind-recount `CountEvent` and an `IncidentReport`. Photo evidence is a `Document —GENERATED_BY→ Activity —ASSOCIATED_WITH→ SoftwareAgent(vision-assist)` (an Assertion); counts are attested by human agents only. The count-to-drawer link is `CountEvent —COUNTS→ InventoryLot | StockLocation`. In v0.1 it rode the `RELATES_TO{kind: counts}` escape hatch; it recurred across settings and was promoted in v0.2, which is P4 working as designed.
 
 **RTLS-enriched nurse call** — `Event(call) —AT→ Location(bed) → Alert —ROUTED_TO→ nearest PractitionerRole` where "nearest" = live `LOCATED_AT` interval join over staff tags (`Tag —Association→ Person`), zone `certainty` required ≥ room-contained.
 
@@ -458,4 +465,4 @@ FHIR R4/R5 (references, workflow module, Encounter, Observation, Provenance & PR
 
 ---
 
-*The Weft Schema is published by Cleansheet LLC under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You may share and adapt it, including commercially, with attribution. Cite as: The Weft Schema, v0.1, Cleansheet LLC, 2026, https://weftgraph.org. "Weft" is used as the name of this schema; trademark rights in the name are reserved and are not licensed under CC BY 4.0.*
+*The Weft Schema is published by Cleansheet Inc. (formerly Cleansheet LLC) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You may share and adapt it, including commercially, with attribution. Cite as: The Weft Schema, v0.2, Cleansheet Inc., 2026, https://weftgraph.org. "Weft" is used as the name of this schema; trademark rights in the name are reserved and are not licensed under CC BY 4.0.*
