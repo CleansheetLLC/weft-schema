@@ -7,7 +7,7 @@
 
 | Field | Value |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.2.1 (schema 0.2, draft) |
 | **Date** | 2026-11 |
 | **Steward** | Cleansheet Inc. |
 | **License** | [CC BY 4.0](LICENSE) |
@@ -44,11 +44,11 @@ primitives are precedented; the combination is the contribution.**
 
 ## How to cite
 
-> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://doi.org/10.5281/zenodo.21806129
+> *The Weft Schema, v0.2.1.* Cleansheet Inc., 2026. https://doi.org/10.5281/zenodo.21806129
 
 Or, citing the canonical home:
 
-> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://weftgraph.org
+> *The Weft Schema, v0.2.1.* Cleansheet Inc., 2026. https://weftgraph.org
 
 To cite one fixed version, use its version DOI:
 
