@@ -7,6 +7,16 @@ conforming implementation of an earlier one.
 
 Each released version is archived with a version-specific DOI (see [How to cite](https://weftgraph.org/#cite)).
 
+## [Unreleased]
+
+No schema change.
+
+- **Corrected** the concept DOI. Versions 0.1 through 0.2 gave `10.5281/zenodo.21806130` as the concept DOI
+  "that resolves to the latest version". That is the DOI of the 0.1 record and resolves to 0.1.
+  The concept DOI is `10.5281/zenodo.21806129`. The specification, README, citation metadata and
+  machine projection now carry it. The archived 0.1, 0.1.1 and 0.2 snapshots keep the old value.
+- **Added** the 0.2 version DOI, `10.5281/zenodo.24601450`, and a table of version DOIs in the README.
+
 ## [0.2] — 2026-11 (draft)
 
 First schema change since publication. **Append-only**: nothing is removed or renamed, so a
@@ -47,7 +57,7 @@ and were promoted under design principle P4. Each names its standards anchor in 
   the catalog held 77 edge types *including* the escape hatch (76 forward). Counts in 0.2 are
   taken from `weft.json`: 85 forward plus the hatch.
 - **Deferred** the split of the overloaded `FOR` edge: no setting has been blocked by it.
-- **Status** draft.
+- **Status** draft. Published 2026-11-27; version DOI `10.5281/zenodo.24601450`.
 
 ## [0.1.1] — 2026-08
 

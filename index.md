@@ -107,7 +107,7 @@ instruments, prompts), not by adding node types. To propose a change to the core
 
 ## Cite
 
-> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. [https://doi.org/10.5281/zenodo.21806130](https://doi.org/10.5281/zenodo.21806130)
+> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. [https://doi.org/10.5281/zenodo.21806129](https://doi.org/10.5281/zenodo.21806129)
 
 The DOI is a concept DOI and always resolves to the latest version. Machine-readable
 citation metadata is in [`CITATION.cff`](CITATION.cff).
