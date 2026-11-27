@@ -3,7 +3,7 @@
 **A unified graph schema for healthcare.** Five domains usually modeled apart (clinical, people, facility, devices, and AI provenance) in one typed graph.
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21806130.svg)](https://doi.org/10.5281/zenodo.21806130)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21806129.svg)](https://doi.org/10.5281/zenodo.21806129)
 
 | Field | Value |
 |---|---|
@@ -12,7 +12,7 @@
 | **Steward** | Cleansheet Inc. |
 | **License** | [CC BY 4.0](LICENSE) |
 | **Canonical home** | https://weftgraph.org |
-| **DOI** | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) (concept DOI; resolves to the latest version) |
+| **DOI** | [`10.5281/zenodo.21806129`](https://doi.org/10.5281/zenodo.21806129) (concept DOI; resolves to the latest version) |
 
 ---
 
@@ -44,11 +44,19 @@ primitives are precedented; the combination is the contribution.**
 
 ## How to cite
 
-> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://doi.org/10.5281/zenodo.21806130
+> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://doi.org/10.5281/zenodo.21806129
 
 Or, citing the canonical home:
 
 > *The Weft Schema, v0.2.* Cleansheet Inc., 2026. https://weftgraph.org
+
+To cite one fixed version, use its version DOI:
+
+| Version | DOI |
+|---|---|
+| 0.2 | [`10.5281/zenodo.24601450`](https://doi.org/10.5281/zenodo.24601450) |
+| 0.1.1 | [`10.5281/zenodo.21809798`](https://doi.org/10.5281/zenodo.21809798) |
+| 0.1 | [`10.5281/zenodo.21806130`](https://doi.org/10.5281/zenodo.21806130) |
 
 ## Status and defensive publication
 

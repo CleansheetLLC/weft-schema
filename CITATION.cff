@@ -27,5 +27,5 @@ keywords:
   - clinical informatics
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.21806130"
+    value: "10.5281/zenodo.21806129"
     description: "Concept DOI (resolves to the latest version)"
