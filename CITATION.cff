@@ -9,7 +9,7 @@ abstract: >-
   85 typed edges, 8 design principles, with every construct traced to a recognized
   standard (FHIR, W3C PROV, SOSA/SSN, Brick, SNOMED CT, ISA-95, GS1 UDI, OCEL).
 type: dataset
-version: "0.2.0"
+version: "0.2.1"
 date-released: 2026-11-27
 license: CC-BY-4.0
 url: "https://weftgraph.org"

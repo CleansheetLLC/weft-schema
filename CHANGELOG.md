@@ -7,14 +7,16 @@ conforming implementation of an earlier one.
 
 Each released version is archived with a version-specific DOI (see [How to cite](https://weftgraph.org/#cite)).
 
-## [Unreleased]
+## [0.2.1] — 2026-11
 
-No schema change.
+Publication correction — **no schema change** (still 10 node families, 70 node types, 85 forward
+edge types). `SPEC.md` and `weft.json` remain at 0.2.
 
 - **Corrected** the concept DOI. Versions 0.1 through 0.2 gave `10.5281/zenodo.21806130` as the concept DOI
   "that resolves to the latest version". That is the DOI of the 0.1 record and resolves to 0.1.
   The concept DOI is `10.5281/zenodo.21806129`. The specification, README, citation metadata and
-  machine projection now carry it. The archived 0.1, 0.1.1 and 0.2 snapshots keep the old value.
+  machine projection now carry it. The archived 0.1, 0.1.1 and 0.2 snapshots keep the old value;
+  0.2.1 is the first archived snapshot with the correct one.
 - **Added** the 0.2 version DOI, `10.5281/zenodo.24601450`, and a table of version DOIs in the README.
 
 ## [0.2] — 2026-11 (draft)
@@ -83,6 +85,7 @@ Initial public specification and machine projection.
 - **Status** draft; published as a defensive publication establishing the five-domain fusion as
   prior art. Published under CC BY 4.0.
 
+[0.2.1]: https://weftgraph.org
 [0.2]: https://weftgraph.org
 [0.1.1]: https://weftgraph.org
 [0.1]: https://weftgraph.org

@@ -107,14 +107,14 @@ instruments, prompts), not by adding node types. To propose a change to the core
 
 ## Cite
 
-> *The Weft Schema, v0.2.* Cleansheet Inc., 2026. [https://doi.org/10.5281/zenodo.21806129](https://doi.org/10.5281/zenodo.21806129)
+> *The Weft Schema, v0.2.1.* Cleansheet Inc., 2026. [https://doi.org/10.5281/zenodo.21806129](https://doi.org/10.5281/zenodo.21806129)
 
 The DOI is a concept DOI and always resolves to the latest version. Machine-readable
 citation metadata is in [`CITATION.cff`](CITATION.cff).
 
 ## Status
 
-Version 0.2 (draft), November 2026. Stewarded by Cleansheet Inc. (formerly Cleansheet LLC).
+Version 0.2.1 (schema 0.2, draft), November 2026. Stewarded by Cleansheet Inc. (formerly Cleansheet LLC).
 
 This specification is published in part as a **defensive publication**: a public, dated,
 enabling disclosure that places the five-domain fusion in the public record. The
